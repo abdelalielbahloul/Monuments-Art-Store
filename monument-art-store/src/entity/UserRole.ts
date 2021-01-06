@@ -1,8 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, OneToOne} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm";
 import { IsUppercase } from "class-validator";
 import { User } from "./User";
-
-// export type UserRoleTypes = "Admin" | "Editor" | "Ghost";
 
 @Entity()
 export class UserRole {
@@ -11,8 +9,8 @@ export class UserRole {
 
     @Column({
         type: "set",
-        enum: ["ADMIN", "EDITOR", "GHOST"],
-        default: `EDITOR`
+        enum: ["ADMIN", "USER"],
+        default: `USER`
     })
     @OneToMany(type => User, user => user.id)
     @IsUppercase()

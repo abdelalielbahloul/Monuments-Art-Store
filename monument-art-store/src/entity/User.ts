@@ -10,51 +10,50 @@ import {
     JoinColumn,
     OneToOne
   } from "typeorm";
-  import { Length, IsNotEmpty, IsEmpty, IsEmail, IsInt } from "class-validator";
+  import { Length, IsNotEmpty, IsEmail, IsInt, Matches } from "class-validator";
   import * as bcrypt from "bcryptjs";
 import { UserRole } from "./UserRole";
-  
+import { IsUserAlreadyExist as isUserAlreadyExist } from "../validations/user-validations";
   @Entity()
-  @Unique("unique keys",["userName", "email"])
+  @Unique("Unique keys", ["email"])
   export class User {
     @PrimaryGeneratedColumn("increment")
     id: number;
   
     @Column()
-    @IsNotEmpty()
     @Length(4, 60)
-    firstName: string;
+    userId: string;
 
-    @Column()
-    @IsNotEmpty()
-    @Length(4, 60)
-    lastName: string;
-
-    @Column()
-    @IsNotEmpty()
-    @Length(4, 60)
-    userName: string;
-
-    @Column()
+    @Column({ nullable: false })
     @IsEmail()
-    @Length(4, 255)
+    @IsNotEmpty({message: 'Email is required'})
+    @Length(12, 255, { message: 'Email must have at least 12 characters'})
+    @isUserAlreadyExist({
+      message: "User with name $value already exists"
+    })
     email: string;
   
-    @Column()
-    @Length(4, 255)
+    @Column({ nullable: false})
+    @Length(8, 255, { message: 'Password must have at least 8 characters' })
+    @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#\$%\^&\*])(?=.{8,}).*$/, {
+      message: 'Password must be at least 8 characters. And has one digit character (0-9), one word character (alphanumeric or underscore), and different of LINE FEED character, and has at least one of special character !@#\$%\^&\* and at least one upper/lower character'
+    })
     password: string;
+
+    @Column({nullable: true})
+    userImage: string;
     
     @OneToOne(type => UserRole, role => role.id)
     @JoinColumn()
-    @IsInt()
+    @IsNotEmpty({message: 'User role is required'})
     role: UserRole;
   
     @Column()
-    @CreateDateColumn()
+    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date;
   
     @Column()
-    @UpdateDateColumn()
+    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     updatedAt: Date;
   
     hashPassword() {
@@ -64,4 +63,5 @@ import { UserRole } from "./UserRole";
     checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
       return bcrypt.compareSync(unencryptedPassword, this.password);
     }
+
   }
