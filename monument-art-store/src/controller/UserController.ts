@@ -8,14 +8,12 @@ class UserController {
 
 static index = async (req: Request, res: Response) => {
   //Get users from database
-  const userRepository = getConnection("mysqlDatabase").getRepository(User);
+  const userRepository = getRepository(User);
   const users = await userRepository
                   .find({ select: [
-                    "id", 
-                    "firstName", 
-                    "lastName", 
+                    "userId", 
                     "email", 
-                    "userName", 
+                    "userImage", 
                     "role", 
                     "createdAt", 
                     "updatedAt"
@@ -27,23 +25,23 @@ static index = async (req: Request, res: Response) => {
 
 static show = async (req: Request, res: Response) => {
   //Get the ID from the url
-  const id: any = req.params.id;
+  const _id: string = req.params.id;
 
   //Get the user from database
-  const userRepository = getConnection("mysqlDatabase").getRepository(User);
+  const userRepository = getRepository(User);
   try {
-    const user = await userRepository.findOneOrFail(id, {
+    const user = await userRepository.findOneOrFail(_id, {
        select: [
-        "id", 
-        "firstName", 
-        "lastName", 
+        "userId",  
         "email", 
-        "userName", 
+        "userImage", 
         "role", 
         "createdAt", 
         "updatedAt"
       ]
     });
+
+    res.send(user);
   } catch (error) {
     res.status(404).send("User not found");
   }
@@ -51,12 +49,11 @@ static show = async (req: Request, res: Response) => {
 
 static create = async (req: Request, res: Response) => {
   //Get parameters from the body
-  let { firstName, lastName, email, userName, password, role } = req.body;
+  let { email, userImage, password, role } = req.body;
   let user = new User();
-  user.firstName = firstName;
-  user.lastName = lastName;
+  user.userId = user.generateId();
   user.email = email;
-  user.userName = userName;
+  user.userImage = userImage;
   user.password = password;
   user.role = role;
 
@@ -71,7 +68,7 @@ static create = async (req: Request, res: Response) => {
   user.hashPassword();
 
   //Try to save. If fails, the username is already in use
-  const userRepository = getConnection("mysqlDatabase").getRepository(User);
+  const userRepository = getRepository(User);
   try {
     await userRepository.save(user);
   } catch (e) {
@@ -88,16 +85,16 @@ static create = async (req: Request, res: Response) => {
 
 static edit = async (req: Request, res: Response) => {
   //Get the ID from the url
-  const id = req.params.id;
+  const _id = req.params.id;
 
   //Get values from the body
-  const { username, role } = req.body;
+  const { email, role } = req.body;
 
   //Try to find user on database
-  const userRepository = getConnection("mysqlDatabase").getRepository(User);
+  const userRepository = getRepository(User);
   let user;
   try {
-    user = await userRepository.findOneOrFail(id);
+    user = await userRepository.findOneOrFail(_id);
   } catch (error) {
     //If not found, send a 404 response
     res.status(404).send("User not found");
@@ -105,7 +102,7 @@ static edit = async (req: Request, res: Response) => {
   }
 
   //Validate the new values on model
-  user.username = username;
+  user.email = email;
   user.role = role;
   const errors = await validate(user);
   if (errors.length > 0) {
@@ -117,7 +114,7 @@ static edit = async (req: Request, res: Response) => {
   try {
     await userRepository.save(user);
   } catch (e) {
-    res.status(409).send("username already in use");
+    res.status(409).send("email already in use");
     return;
   }
   //After all send a 204 (no content, but accepted) response
@@ -126,17 +123,17 @@ static edit = async (req: Request, res: Response) => {
 
 static delete = async (req: Request, res: Response) => {
   //Get the ID from the url
-  const id = req.params.id;
+  const _id = req.params.id;
 
-  const userRepository = getConnection("mysqlDatabase").getRepository(User);
+  const userRepository = getRepository(User);
   let user: User;
   try {
-    user = await userRepository.findOneOrFail(id);
+    user = await userRepository.findOneOrFail(_id);
   } catch (error) {
     res.status(404).send("User not found");
     return;
   }
-  userRepository.delete(id);
+  userRepository.delete(_id);
 
   //After all send a 204 (no content, but accepted) response
   res.status(204).send();

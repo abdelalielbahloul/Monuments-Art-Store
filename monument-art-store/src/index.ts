@@ -19,7 +19,7 @@ createConnection().then(async connection => {
     app.use(cors());
     app.use(helmet());
     app.use(bodyParser.json());
-    app.use('/uploads',express.static('uploads'));
+    app.use('/src/uploads', express.static('uploads'));
 
     // register express routes from defined application routes
     // routes.forEach(route => {

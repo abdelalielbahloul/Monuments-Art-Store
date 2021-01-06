@@ -2,12 +2,14 @@ import { Router } from "express";
 import * as multer from 'multer';
 import AuthController from "../controller/AuthController";
 import checkJwt from "../middlewars/checkJwt";
+import 'dotenv/config';
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './src/uploads/')
     },
-    filename: function (req, file, cb) { 
-        cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname)
+    filename: function (req, file, cb) {         
+        cb(null, `${Date.now()}-${file.originalname}`)
     }
 });
 const fileFilter = (req, file, cb ) => {
