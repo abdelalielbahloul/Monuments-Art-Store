@@ -13,7 +13,6 @@ import {
   import { Length, IsNotEmpty, IsEmail, IsInt, Matches } from "class-validator";
   import * as bcrypt from "bcryptjs";
 import { UserRole } from "./UserRole";
-import { IsUserAlreadyExist as isUserAlreadyExist } from "../validations/user-validations";
   @Entity()
   @Unique("Unique keys", ["email"])
   export class User {
@@ -28,9 +27,6 @@ import { IsUserAlreadyExist as isUserAlreadyExist } from "../validations/user-va
     @IsEmail()
     @IsNotEmpty({message: 'Email is required'})
     @Length(12, 255, { message: 'Email must have at least 12 characters'})
-    @isUserAlreadyExist({
-      message: "User with name $value already exists"
-    })
     email: string;
   
     @Column({ nullable: false})
