@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getRepository, getConnection } from "typeorm";
+import { getRepository } from "typeorm";
 import { validate } from "class-validator";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -66,7 +66,7 @@ class UserController {
 
       res.send(response);
     } catch (error) {
-      res.status(404).send("User not found");
+      res.status(404).send({message: "User not found"});
     }
   };
 
@@ -103,7 +103,7 @@ class UserController {
     }
 
     //If all ok, send 201 response
-    res.status(201).send("User created successfully!");
+    res.status(201).send({success: true, message: "User created successfully!"});
   };
 
   static edit = async (req: Request, res: Response) => {
@@ -117,10 +117,10 @@ class UserController {
     const userRepository = getRepository(User);
     let user;
     try {
-      user = await userRepository.findOneOrFail(_id);
+      user = await userRepository.findOneOrFail({ where: { userId: _id }});
     } catch (error) {
       //If not found, send a 404 response
-      res.status(404).send("User not found");
+      res.status(404).send({message: "User not found"});
       return;
     }
 
@@ -137,7 +137,7 @@ class UserController {
     try {
       await userRepository.save(user);
     } catch (e) {
-      res.status(409).send("email already in use");
+      res.status(409).send({error: "email already in use!"});
       return;
     }
     //After all send a 204 (no content, but accepted) response
@@ -151,12 +151,12 @@ class UserController {
     const userRepository = getRepository(User);
     let user: User;
     try {
-      user = await userRepository.findOneOrFail(_id);
+      user = await userRepository.findOneOrFail({where: { userId: _id }});
     } catch (error) {
-      res.status(404).send("User not found");
+      res.status(404).send({message: "User not found"});
       return;
     }
-    userRepository.delete(_id);
+    await userRepository.remove(user);
 
     //After all send a 204 (no content, but accepted) response
     res.status(204).send();
