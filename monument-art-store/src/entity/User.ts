@@ -42,10 +42,7 @@ import { UserRole } from "./UserRole";
     @Column({nullable: true})
     userImage: string;
     
-    @OneToOne(() => UserRole, role => role.id, {
-      eager: true,
-      // to specify the fluent api config oncacade, lazy ...
-    })
+    @OneToOne(() => UserRole, role => role.id)
     @JoinColumn()
     @IsNotEmpty({ message: 'User role is required' })
     role: UserRole;
