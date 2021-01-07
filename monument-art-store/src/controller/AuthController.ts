@@ -50,7 +50,6 @@ class AuthController {
 
   static register = async (req: Request, res: Response) => {
       
-    
     //Get parameters from the body  
     let { name, email, password, role } = req.body;
     if(!(name || email || password || role)) {

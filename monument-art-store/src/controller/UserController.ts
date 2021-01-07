@@ -72,11 +72,11 @@ class UserController {
 
   static create = async (req: Request, res: Response) => {
     //Get parameters from the body
-    let { email, userImage, password, role } = req.body;
+    let { email, password, role } = req.body;
     let user = new User();
     user.userId = uuidv4();
     user.email = email;
-    user.userImage = userImage;
+    user.userImage = (req.file.path != null && req.file.path != undefined) ? req.file.path : "";;
     user.password = password;
     user.role = role;
 
