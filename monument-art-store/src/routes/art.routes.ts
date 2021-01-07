@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 });
 const fileFilter = (req, file, cb ) => {
     
-    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg'){
         // To accept the file pass `true`, like so:
         cb(null, true);
         return;
@@ -38,10 +38,10 @@ const router = Router();
 router.get("/", [checkJwt], ArtController.index);
 
 //Create a new art
-router.post("/", upload.single('artImage'), [checkJwt], ArtController.create);
+router.post("/", upload.single('image'), [checkJwt], ArtController.create);
 
 //Edit one art
-router.patch("/:id", upload.single('artImage'), [checkJwt], ArtController.edit);
+router.patch("/:id", upload.single('image'), [checkJwt], ArtController.edit);
 
 //Delete one art
 router.delete("/:id", [checkJwt], ArtController.delete);
