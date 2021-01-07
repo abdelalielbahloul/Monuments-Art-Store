@@ -6,30 +6,18 @@ import checkRole from "../middlewars/checkRole";
 const router = Router();
 
 //Get all users
-router.get("/", [checkJwt, checkRole(["ADMIN", "EDITOR"])], UserController.index);
+router.get("/", [checkJwt, checkRole(["ADMIN", "USER"])], UserController.index);
 
 // Get one user
-router.get(
-  "/:id([0-9]+)",
-  [checkJwt, checkRole(["ADMIN"])],
-  UserController.show
-);
+router.get("/:id", [checkJwt, checkRole(["ADMIN"])], UserController.show);
 
 //Create a new user
 router.post("/", [checkJwt, checkRole(["ADMIN"])], UserController.create);
 
 //Edit one user
-router.patch(
-  "/:id([0-9]+)",
-  [checkJwt, checkRole(["ADMIN"])],
-  UserController.edit
-);
+router.patch("/:id", [checkJwt, checkRole(["ADMIN"])], UserController.edit);
 
 //Delete one user
-router.delete(
-  "/:id([0-9]+)",
-  [checkJwt, checkRole(["ADMIN"])],
-  UserController.delete
-);
+router.delete("/:id", [checkJwt, checkRole(["ADMIN"])], UserController.delete);
 
 export default router;
