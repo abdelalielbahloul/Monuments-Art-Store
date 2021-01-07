@@ -5,8 +5,6 @@ import {
     Unique,
     CreateDateColumn,
     UpdateDateColumn,
-    BaseEntity,
-    ManyToOne,
     JoinColumn,
     OneToOne
   } from "typeorm";
@@ -19,9 +17,14 @@ import { UserRole } from "./UserRole";
     @PrimaryGeneratedColumn("increment")
     id: number;
   
-    @Column()
+    @Column({ nullable: false })
     @Length(4, 60)
     userId: string;
+
+    @Column()
+    @Length(3, 255, { message: 'Name must have at least 3 characters'})
+    @IsNotEmpty({message: 'Name is required'})
+    name: string;
 
     @Column({ nullable: false })
     @IsEmail()
@@ -39,9 +42,12 @@ import { UserRole } from "./UserRole";
     @Column({nullable: true})
     userImage: string;
     
-    @OneToOne(type => UserRole, role => role.id)
+    @OneToOne(() => UserRole, role => role.id, {
+      eager: true,
+      // to specify the fluent api config oncacade, lazy ...
+    })
     @JoinColumn()
-    @IsNotEmpty({message: 'User role is required'})
+    @IsNotEmpty({ message: 'User role is required' })
     role: UserRole;
   
     @Column()

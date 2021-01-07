@@ -12,7 +12,7 @@ export class UserRole {
         enum: ["ADMIN", "USER"],
         default: `USER`
     })
-    @OneToMany(type => User, user => user.id)
+    @OneToMany(() => User, user => user.id)
     @IsUppercase()
     name: string;
     
