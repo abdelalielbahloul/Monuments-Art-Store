@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
-import { getRepository, getConnection } from "typeorm";
+import { getRepository } from "typeorm";
 import { validate } from "class-validator";
 import { v4 as uuidv4 } from 'uuid';
 import 'dotenv/config';
@@ -10,6 +10,8 @@ import { UserRole } from "../entity/UserRole";
 
 class AuthController {
   static login = async (req: Request, res: Response) => {
+    console.log(req.body);
+    
     //Check if username and password are set
     let { login, password } = req.body;
     if (!(login && password)) {
@@ -20,7 +22,7 @@ class AuthController {
     const userRepository = getRepository(User);
     let user: User;
     try {
-      user = await userRepository.findOneOrFail({ where: { login } });
+      user = await userRepository.findOneOrFail({ where: { email: login } });
     } catch (error) {
       res.status(401).send({ msg: "Login faild!" });
     }
@@ -33,7 +35,7 @@ class AuthController {
 
     //Sign JWT, valid for 1 hour
     const token = jwt.sign({ 
-                  userId: user.id, 
+                  userId: user.userId, 
                   username: user.email 
                 },
                 config.jwtSecret,
@@ -50,22 +52,23 @@ class AuthController {
 
   static register = async (req: Request, res: Response) => {
       
-    const baseURL = `${process.env.SERVER_HOST}:${process.env.PORT}/`;
-    if(!req.body.email || !req.body.password || !req.body.role) {
-      res.status(400).json({ error: "bad Request" });
-      return;
-    }
+    // const baseURL = `${process.env.SERVER_HOST}:${process.env.PORT}`;
     
     //Get parameters from the body  
-    let { email, password, role } = req.body;
+    let { name, email, password, role } = req.body;
+    if(!(name || email || password || role)) {
+      res.status(400).json({ error: "Bad Request" });
+      return;
+    }
     let user = new User();
     user.userId = uuidv4();
+    user.name = name;
     user.email = email;
     user.userImage = (req.file.path != null && req.file.path != undefined) ? req.file.path : "";
     user.password = password;
     user.role = role;
 
-    console.log(`${baseURL}/${user.userImage}`);
+    // console.log(`${baseURL}/${user.userImage}`);
 
 
     //validate the sent role
@@ -87,15 +90,23 @@ class AuthController {
 
         //Try to save. If fails, the username is already in use
         const userRepository = getRepository(User);
-        try {
-          await userRepository.save(user);
-        } catch (e) {
-          res.status(409).send({
-            success: false,
-            error: e.message
-          });
+        const existedUser = await userRepository.findOne({ where: { email: email } })
+        
+        if(!existedUser) {
+          try {
+            await userRepository.save(user);
+          } catch (e) {
+            res.status(409).send({
+              success: false,
+              error: e.sqlMessage
+            });
+            return;
+          }
+        } else {
+          res.status(400).send({ success: false, error: "User already exist!"});
           return;
         }
+       
       } catch (error) {
         res.status(400).send(error);
         return;
@@ -109,7 +120,7 @@ class AuthController {
     } else {
       res.status(404).send({
         success: false,
-        error: "User Role Not Found"
+        error: "User Role Not Found!"
       });
       return;
     }
