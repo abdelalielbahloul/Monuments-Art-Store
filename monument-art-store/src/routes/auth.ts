@@ -6,22 +6,22 @@ import 'dotenv/config';
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './src/uploads/')
+      cb(null, './uploads/')
     },
     filename: function (req, file, cb) {         
         cb(null, `${Date.now()}-${file.originalname}`)
     }
 });
 const fileFilter = (req, file, cb ) => {
-
+    
     if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
         // To accept the file pass `true`, like so:
         cb(null, true);
         return;
-    }else{
+    } else{
         // To reject this file pass `false`, like so:
         cb(null, false);
-        cb( new Error('The file mime type is not acceptable'))       
+        cb( new Error('The file mime type is not acceptable!'))       
     }
 
 };
