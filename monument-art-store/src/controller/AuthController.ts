@@ -10,8 +10,6 @@ import { UserRole } from "../entity/UserRole";
 
 class AuthController {
   static login = async (req: Request, res: Response) => {
-    console.log(req.body);
-    
     //Check if username and password are set
     let { login, password } = req.body;
     if (!(login && password)) {
@@ -67,9 +65,6 @@ class AuthController {
     user.password = password;
     user.role = role;
 
-    // console.log(`${baseURL}/${user.userImage}`);
-
-
     //validate the sent role
     const roleRepository = getRepository(UserRole);
     const sentRole = await roleRepository.findOne({ where: { id: role } });
@@ -87,7 +82,7 @@ class AuthController {
         //Hash the password, to securely store on DB
         user.hashPassword();
 
-        //Try to save. If fails, the username is already in use
+        //Try to save. If fails, the email is already in use
         const userRepository = getRepository(User);
         const existedUser = await userRepository.findOne({ where: { email: email } })
         

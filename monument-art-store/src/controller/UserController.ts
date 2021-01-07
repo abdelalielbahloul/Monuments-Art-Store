@@ -8,7 +8,7 @@ import { User } from "../entity/User";
 class UserController {
 
   static index = async (req: Request, res: Response) => {
-      const baseURL = `${process.env.SERVER_HOST}:${process.env.PORT}`;
+    const baseURL = `${process.env.SERVER_HOST}:${process.env.PORT}`;
 
     //Get users from database
     const userRepository = getRepository(User);
@@ -90,7 +90,7 @@ class UserController {
     //Hash the password, to securely store on DB
     user.hashPassword();
 
-    //Try to save. If fails, the username is already in use
+    //Try to save. If fails, the email is already in use
     const userRepository = getRepository(User);
     try {
       await userRepository.save(user);
@@ -133,7 +133,7 @@ class UserController {
       return;
     }
 
-    //Try to safe, if fails, that means username already in use
+    //Try to save, if fails, that means username already in use
     try {
       await userRepository.save(user);
     } catch (e) {
