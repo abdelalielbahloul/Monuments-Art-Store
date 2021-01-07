@@ -37,8 +37,6 @@ class ArtController {
   };
 
   static create = async (req: Request, res: Response) => {
-      
-    
     //Get parameters from the body  
     let { title, price, place, availableCopies } = req.body;
     if(!(title || price || place || availableCopies)) {
@@ -101,7 +99,7 @@ class ArtController {
     const artRepository = getRepository(Art);
     let art: Art;
     try {
-      art = await artRepository.findOneOrFail(_id);
+      art = await artRepository.findOneOrFail({ where: { artId: _id }});
     } catch (error) {
       //If not found, send a 404 response
       res.status(404).send("Art not found");
@@ -135,17 +133,16 @@ class ArtController {
 
   static delete = async (req: Request, res: Response) => {
     //Get the ID from the url
-    const _id = req.params.id;
-
+    const _id = req.params.id; 
     const artRepository = getRepository(Art);
     let art: Art;
     try {
-      art = await artRepository.findOneOrFail(_id);
+      art = await artRepository.findOneOrFail({ where: { artId: _id }});
     } catch (error) {
-      res.status(404).send("Art not found");
+      res.status(404).send({message: "Art not found"});
       return;
     }
-    artRepository.delete(_id);
+    await artRepository.remove(art);
 
     //After all send a 204 (no content, but accepted) response
     res.status(204).send();
