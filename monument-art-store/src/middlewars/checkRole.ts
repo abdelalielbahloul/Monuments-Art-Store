@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { getRepository, getConnection } from "typeorm";
+import { getRepository } from "typeorm";
 
 import { User } from "../entity/User";
 import { UserRole } from "../entity/UserRole";
@@ -11,8 +11,8 @@ const checkRole = (roles: Array<string>) => {
     const userId = res.locals.jwtPayload.userId;
 
     //Get user role from the database
-    const userRepository = await getConnection("mysqlDatabase").getRepository(User);
-    const roleRepository = await getConnection("mysqlDatabase").getRepository(UserRole);
+    const userRepository = getRepository(User);
+    const roleRepository = getRepository(UserRole);
     let user: User;
     let userRole: UserRole;
     try {
