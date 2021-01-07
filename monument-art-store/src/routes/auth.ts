@@ -2,7 +2,6 @@ import { Router } from "express";
 import * as multer from 'multer';
 import AuthController from "../controller/AuthController";
 import checkJwt from "../middlewars/checkJwt";
-import 'dotenv/config';
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
