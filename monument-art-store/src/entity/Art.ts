@@ -10,7 +10,6 @@ export class Art {
   
     @PrimaryGeneratedColumn('uuid')
     @Column()
-    @Length(4, 255)
     artId: string;
 
     @Column({ nullable: false })
