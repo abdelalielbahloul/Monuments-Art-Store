@@ -52,7 +52,6 @@ class AuthController {
 
   static register = async (req: Request, res: Response) => {
       
-    // const baseURL = `${process.env.SERVER_HOST}:${process.env.PORT}`;
     
     //Get parameters from the body  
     let { name, email, password, role } = req.body;
