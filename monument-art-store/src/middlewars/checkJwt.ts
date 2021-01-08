@@ -4,6 +4,21 @@ import config from "../config/config";
 
 const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   //Get the jwt token from the head
+  if(!req.headers.authorization) {
+    res.send({
+      name: "jsonwebtoken",
+      message: "token must be provided!"
+    })
+    return;
+  }
+  const hasBearerPrefix = req.headers.authorization.split(" ")[0]
+  if(hasBearerPrefix != 'Bearer') {
+    res.send({
+      name: "Bearer Provider",
+      message: "No Bearer prefix provided!"
+    })
+    return;
+  }
   const token = <string>req.headers.authorization.split(" ")[1];
   let jwtPayload;
   
