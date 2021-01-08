@@ -1,8 +1,8 @@
 import { Router } from "express";
-import * as multer from 'multer';
+import multer from 'multer';
 import AuthController from "../controller/AuthController";
 import checkJwt from "../middlewars/checkJwt";
-import * as fs from 'fs';
+import fs from 'fs';
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
