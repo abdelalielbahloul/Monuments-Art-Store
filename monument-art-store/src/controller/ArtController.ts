@@ -60,6 +60,7 @@ class ArtController {
         art.price = art.toCurrency(price, 'EUR');
         art.availableCopy = availableCopies;
         
+        let createdArt: Art;
         try {
             //Validade if the parameters are ok
             const errors = await validate(art, { validationError: { target: false } });
@@ -73,7 +74,7 @@ class ArtController {
             
             if(!existedArt) {
                 try {
-                    await artRepository.save(art);
+                    createdArt = await artRepository.save(art);
                 } catch (e) {
                     if(req.file != null || req.file != undefined) {
                         if(fs.existsSync(req.file.path)) { // check if old image exist
@@ -114,7 +115,8 @@ class ArtController {
         //If all ok, send 201 response
         res.status(201).send({
             success: true,
-            message: "Art created successfully!"
+            message: "Art created successfully!",
+            _id: createdArt.artId
         });
             
     }
