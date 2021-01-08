@@ -77,6 +77,7 @@ class AuthController {
     const sentRole = await roleRepository.findOne({ where: { id: role } });
     
     if(sentRole != undefined && sentRole != null) {
+      let createdUser: User;
 
       try {
         //Validade if the parameters are ok
@@ -99,10 +100,9 @@ class AuthController {
         //Try to save. If fails, the email is already in use
         const userRepository = getRepository(User);
         const existedUser = await userRepository.findOne({ where: { email: email } })
-        
         if(!existedUser) {
           try {
-            await userRepository.save(user);
+            createdUser = await userRepository.save(user);
           } catch (e) {
             if(req.file != null || req.file != undefined) {
               if(fs.existsSync(req.file.path)) { // check if old image exist
@@ -143,7 +143,8 @@ class AuthController {
       //If all ok, send 201 response
       res.status(201).send({
         success: true,
-        message: "User created successfully!"
+        message: "Registred successfully!",
+        _id: createdUser.userId
       });
 
     } else {
