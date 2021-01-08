@@ -1,0 +1,28 @@
+.grid-container {
+  margin: 20px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 5px;
+  bottom: 20px;
+}
+
+.dashboard-card-content {
+  text-align: left;
+}
+
+.example-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+}
+
+.sideNav {
+  width: 200px;
+}
