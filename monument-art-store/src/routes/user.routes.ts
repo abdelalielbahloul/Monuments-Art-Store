@@ -3,11 +3,13 @@ import * as multer from 'multer';
 import UserController from "../controller/UserController";
 import checkJwt  from "../middlewars/checkJwt";
 import checkRole from "../middlewars/checkRole";
+import * as fs from 'fs';
 
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './uploads/')
+        if(!fs.existsSync('./uploads')) fs.mkdirSync('./uploads')
+        cb(null, './uploads/')
     },
     filename: function (req, file, cb) {         
         cb(null, `${Date.now()}-${file.originalname}`)
