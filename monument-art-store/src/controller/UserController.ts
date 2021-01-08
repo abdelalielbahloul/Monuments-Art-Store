@@ -33,7 +33,7 @@ class UserController {
           name: user.name,
           image: `${baseURL}/${user.userImage}`,
           email: user.email,
-          role: user.role.name,
+          role: user.role,
           contributions: await artRepository.count({ where: { userId: user.userId }}),
           createdAt: user.createdAt,
           updatedAt: user.updatedAt
@@ -64,7 +64,7 @@ class UserController {
         email: user.email,
         name: user.name,
         image: user.userImage,
-        role: user.role.name,
+        role: user.role,
         contributions: nbrContributions,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt
