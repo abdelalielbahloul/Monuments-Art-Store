@@ -28,6 +28,7 @@ class ArtController {
             price: art.price,
             place: art.place,
             availableCopies: art.availableCopy,
+            userId: art.userId,
             createdAt: art.createdAt,
             updatedAt: art.updatedAt
             }
@@ -39,48 +40,77 @@ class ArtController {
 
     static create = async (req: Request, res: Response) => {
         //Get parameters from the body  
-        let { title, price, place, availableCopies } = req.body;
-        if(!(title || price || place || availableCopies)) {
-        res.status(400).json({ error: "Bad Request" });
-        return;
+        let { title, price, place, availableCopies, userId } = req.body;
+        if(!(title || price || place || availableCopies || userId)) {
+            if(req.file != null || req.file != undefined) {
+                if(fs.existsSync(req.file.path)) { // check if old image exist
+                    fs.unlink(req.file.path, (err) => {
+                        if(err) res.send({ error: err})
+                    }) // remove the old art image
+                }
+            }
+            res.status(400).json({ error: "Bad Request" });
+            return;
         }
 
         let art = new Art();
         art.title = title;
         art.place = place;
+        art.userId = userId;
         art.image = (req.file.path != null && req.file.path != undefined) ? req.file.path : "";
         art.price = art.toCurrency(price, 'EUR');
         art.availableCopy = availableCopies;
         
         try {
-        //Validade if the parameters are ok
-        const errors = await validate(art, { validationError: { target: false } });
-        if (errors.length > 0) {
-            res.status(400).send(errors);
-            return;
-        }
-
-        const artRepository = getRepository(Art);
-        const existedArt = await artRepository.findOne({ where: { title: title } })
-        
-        if(!existedArt) {
-            try {
-            await artRepository.save(art);
-            } catch (e) {
-            res.status(409).send({
-                success: false,
-                error: e.sqlMessage
-            });
-            return;
+            //Validade if the parameters are ok
+            const errors = await validate(art, { validationError: { target: false } });
+            if (errors.length > 0) {
+                res.status(400).send(errors);
+                return;
             }
-        } else {
-            res.status(400).send({ success: false, error: `Art with title: ${title} is already in use!`});
-            return;
-        }
+
+            const artRepository = getRepository(Art);
+            const existedArt = await artRepository.findOne({ where: { title: title } })
+            
+            if(!existedArt) {
+                try {
+                    await artRepository.save(art);
+                } catch (e) {
+                    if(req.file != null || req.file != undefined) {
+                        if(fs.existsSync(req.file.path)) { // check if old image exist
+                            fs.unlink(req.file.path, (err) => {
+                                if(err) res.send({ error: err})
+                            }) // remove the old art image
+                        }
+                    }
+                    res.status(409).send({
+                        success: false,
+                        error: e.sqlMessage
+                    });
+                return;
+                }
+            } else {
+                if(req.file != null || req.file != undefined) {
+                    if(fs.existsSync(req.file.path)) { // check if old image exist
+                        fs.unlink(req.file.path, (err) => {
+                            if(err) res.send({ error: err})
+                        }) // remove the old art image
+                    }
+                }
+                res.status(400).send({ success: false, error: `Art with title: ${title} is already in use!`});
+                return;
+            }
         
         } catch (error) {
-        res.status(400).send(error);
-        return;
+            if(req.file != null || req.file != undefined) {
+                if(fs.existsSync(req.file.path)) { // check if old image exist
+                    fs.unlink(req.file.path, (err) => {
+                        if(err) res.send({ error: err})
+                    }) // remove the old art image
+                }
+            }
+            res.status(400).send(error);
+            return;
         }
         //If all ok, send 201 response
         res.status(201).send({
@@ -95,29 +125,41 @@ class ArtController {
         const _id = req.params.id;
 
         //Get values from the body
-        let { title, price, place, availableCopies } = req.body;
+        let { title, price, place, availableCopies, userId } = req.body;
 
         const artRepository = getRepository(Art);
         let art: Art;
         try {
-        art = await artRepository.findOneOrFail({ where: { artId: _id }});
+            art = await artRepository.findOneOrFail({ where: { artId: _id }});
         } catch (error) {
         //If not found, send a 404 response
-        res.status(404).send("Art not found");
-        return;
+            if(req.file != null || req.file != undefined) {
+                if(fs.existsSync(req.file.path)) { // check if old image exist
+                    fs.unlink(req.file.path, (err) => {
+                        if(err) res.send({ error: err})
+                    }) // remove the old art image
+                }
+            }
+            res.status(404).send("Art not found");
+            return;
         }
 
         //Validate the new values on model
         art.title = title;
         art.price = art.toCurrency(price, 'EUR');
         art.place = place;
-        art.availableCopy = availableCopies;
-        if(req.file.path != null || req.file.path != undefined) {
-            fs.unlinkSync(art.image) // remove the old art image
-            art.image = req.file.path
+        art.userId = userId;
+        art.availableCopy = availableCopies;        
+        if(req.file != null || req.file != undefined) {
+            if(fs.existsSync(art.image)) { // check if old image exist
+                fs.unlink(art.image, (err) => {
+                    if(err) res.send({ error: err})
+                }) // remove the old art image
+            }
+            art.image = req.file.path // add new image
         }
 
-        const errors = await validate(art);
+        const errors = await validate(art, { validationError: { target: false } });
         if (errors.length > 0) {
             res.status(400).send(errors);
             return;
@@ -146,7 +188,11 @@ class ArtController {
             res.status(404).send({message: "Art not found"});
             return;
         }    
-        fs.unlinkSync(art.image)
+        if(fs.existsSync(art.image)) {
+            fs.unlink(art.image, err => {
+                if(err) res.send({ error: err})
+            }) 
+        }
         await artRepository.remove(art);
 
         //After all send a 204 (no content, but accepted) response
