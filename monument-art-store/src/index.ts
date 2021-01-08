@@ -24,7 +24,7 @@ createConnection().then(async connection => {
 
     // setup express app here
         //Set all routes from routes folder
-        app.use("/", routes);
+        app.use("/api", routes);
 
     // swagger
     let options = {
