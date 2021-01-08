@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
 
 import { User } from "../entity/User";
+import { Art } from "../entity/Art";
 
 class UserController {
 
@@ -25,17 +26,19 @@ class UserController {
                     })
     const response = {
       count: users.length,
-      users: users.map(user => {        
+      users: await Promise.all(users.map(async user => {     
+        const artRepository = getRepository(Art)        
         return {
           _id: user.userId,
           name: user.name,
           image: `${baseURL}/${user.userImage}`,
           email: user.email,
           role: user.role.name[0],
+          contributions: await artRepository.count({ where: { userId: user.userId }}),
           createdAt: user.createdAt,
           updatedAt: user.updatedAt
         }
-      })
+      }))
     }
     //Send the users object
     res.send(response);
@@ -54,13 +57,15 @@ class UserController {
           leftJoinAndSelect: { role: 'user.role'}
         }
       });
-
+      const artRepository = getRepository(Art);
+      const nbrContributions = await artRepository.count({ where: { userId: user.userId }});
       const response = {
         _id: user.userId,
         email: user.email,
         name: user.name,
         image: user.userImage,
         role: user.role.name[0],
+        contributions: nbrContributions,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt
       }
@@ -77,13 +82,20 @@ class UserController {
     let user = new User();
     user.userId = uuidv4();
     user.email = email;
-    user.userImage = (req.file.path != null && req.file.path != undefined) ? req.file.path : "";;
+    user.userImage = (req.file != null && req.file != undefined) ? req.file.path : "";
     user.password = password;
     user.role = role;
 
     //Validade if the parameters are ok
-    const errors = await validate(user);
+    const errors = await validate(user, { validationError: { target: false } });
     if (errors.length > 0) {
+      if(req.file != null || req.file != undefined) {
+        if(fs.existsSync(req.file.path)) { // check if old image exist
+            fs.unlink(req.file.path, (err) => {
+                if(err) res.send({ error: err})
+            }) // remove the old art image
+        }
+      }
       res.status(400).send(errors);
       return;
     }
@@ -96,6 +108,13 @@ class UserController {
     try {
       await userRepository.save(user);
     } catch (e) {
+      if(req.file != null || req.file != undefined) {
+        if(fs.existsSync(req.file.path)) { // check if old image exist
+            fs.unlink(req.file.path, (err) => {
+                if(err) res.send({ error: err})
+            }) // remove the old art image
+        }
+      }
       res.status(409).send({
         "success": false,
         error: e
@@ -128,7 +147,7 @@ class UserController {
     //Validate the new values on model
     user.email = email;
     user.role = role;
-    const errors = await validate(user);
+    const errors = await validate(user, { validationError: { target: false } });
     if (errors.length > 0) {
       res.status(400).send(errors);
       return;
