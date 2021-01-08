@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { validate } from "class-validator";
 import { v4 as uuidv4 } from 'uuid';
+import * as fs from 'fs';
 
 import { User } from "../entity/User";
 
@@ -156,6 +157,8 @@ class UserController {
       res.status(404).send({message: "User not found"});
       return;
     }
+    // delete image of deleted user
+    fs.unlinkSync(user.userImage);
     await userRepository.remove(user);
 
     //After all send a 204 (no content, but accepted) response
