@@ -20,17 +20,17 @@ class ArtController {
                         })
         const response = {
         count: arts.length,
-        users: arts.map(art => {        
+        arts: arts.map(art => {        
             return {
-            _id: art.artId,
-            title: art.title,
-            image: `${ArtController.baseURL}/${art.image}`,
-            price: art.price,
-            place: art.place,
-            availableCopies: art.availableCopy,
-            userId: art.userId,
-            createdAt: art.createdAt,
-            updatedAt: art.updatedAt
+                _id: art.artId,
+                title: art.title,
+                image: `${ArtController.baseURL}/${art.image}`,
+                price: art.price,
+                place: art.place,
+                availableCopies: art.availableCopy,
+                userId: art.userId,
+                createdAt: art.createdAt,
+                updatedAt: art.updatedAt
             }
         })
         }
