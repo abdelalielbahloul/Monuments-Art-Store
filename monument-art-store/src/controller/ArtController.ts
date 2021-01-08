@@ -28,7 +28,6 @@ class ArtController {
                 price: art.price,
                 place: art.place,
                 availableCopies: art.availableCopy,
-                userId: art.userId,
                 createdAt: art.createdAt,
                 updatedAt: art.updatedAt
             }
