@@ -33,7 +33,7 @@ class UserController {
           name: user.name,
           image: `${baseURL}/${user.userImage}`,
           email: user.email,
-          role: user.role.name[0],
+          role: user.role.name,
           contributions: await artRepository.count({ where: { userId: user.userId }}),
           createdAt: user.createdAt,
           updatedAt: user.updatedAt
@@ -64,7 +64,7 @@ class UserController {
         email: user.email,
         name: user.name,
         image: user.userImage,
-        role: user.role.name[0],
+        role: user.role.name,
         contributions: nbrContributions,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt
@@ -105,8 +105,9 @@ class UserController {
 
     //Try to save. If fails, the email is already in use
     const userRepository = getRepository(User);
+    let createdUser: User;
     try {
-      await userRepository.save(user);
+      createdUser = await userRepository.save(user);
     } catch (e) {
       if(req.file != null || req.file != undefined) {
         if(fs.existsSync(req.file.path)) { // check if old image exist
@@ -116,14 +117,18 @@ class UserController {
         }
       }
       res.status(409).send({
-        "success": false,
+        success: false,
         error: e
       });
       return;
     }
 
     //If all ok, send 201 response
-    res.status(201).send({success: true, message: "User created successfully!"});
+    res.status(201).send({
+      success: true, 
+      message: "User created successfully!",
+      _id: createdUser.userId
+    });
   };
 
   static edit = async (req: Request, res: Response) => {
@@ -131,11 +136,12 @@ class UserController {
     const _id = req.params.id;
 
     //Get values from the body
-    const { email, role } = req.body;
+    const { email, role, name } = req.body;
+    
 
     //Try to find user on database
     const userRepository = getRepository(User);
-    let user;
+    let user: User;
     try {
       user = await userRepository.findOneOrFail({ where: { userId: _id }});
     } catch (error) {
@@ -147,6 +153,7 @@ class UserController {
     //Validate the new values on model
     user.email = email;
     user.role = role;
+    user.name = name;
     const errors = await validate(user, { validationError: { target: false } });
     if (errors.length > 0) {
       res.status(400).send(errors);
@@ -155,8 +162,8 @@ class UserController {
 
     //Try to save, if fails, that means username already in use
     try {
-      await userRepository.save(user);
-    } catch (e) {
+      await userRepository.update({ userId: user.userId }, user);
+    } catch (e) {      
       res.status(409).send({error: "email already in use!"});
       return;
     }
