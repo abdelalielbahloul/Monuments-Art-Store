@@ -7,6 +7,7 @@ import 'dotenv/config';
 import { User } from "../entity/User";
 import config from "../config/config";
 import { UserRole } from "../entity/UserRole";
+import * as fs from 'fs';
 
 class AuthController {
   static login = async (req: Request, res: Response) => {
@@ -52,7 +53,14 @@ class AuthController {
       
     //Get parameters from the body  
     let { name, email, password, role } = req.body;
-    if(!(name || email || password || role)) {
+      if(!(name || email || password || role)) {
+        if(req.file != null || req.file != undefined) {
+          if(fs.existsSync(req.file.path)) { // check if old image exist
+              fs.unlink(req.file.path, (err) => {
+                  if(err) res.send({ error: err})
+              }) // remove the old art image
+          }
+      }
       res.status(400).json({ error: "Bad Request" });
       return;
     }
@@ -60,7 +68,7 @@ class AuthController {
     user.userId = uuidv4();
     user.name = name;
     user.email = email;
-    user.userImage = (req.file.path != null && req.file.path != undefined) ? req.file.path : "";
+    user.userImage = (req.file != null && req.file != undefined) ? req.file.path : "";
     user.password = password;
     user.role = role;
 
@@ -74,6 +82,13 @@ class AuthController {
         //Validade if the parameters are ok
         const errors = await validate(user, { validationError: { target: false } });
         if (errors.length > 0) {
+          if(req.file != null || req.file != undefined) {
+              if(fs.existsSync(req.file.path)) { // check if old image exist
+                  fs.unlink(req.file.path, (err) => {
+                      if(err) res.send({ error: err})
+                  }) // remove the old art image
+              }
+          }
           res.status(400).send(errors);
           return;
         }
@@ -89,6 +104,13 @@ class AuthController {
           try {
             await userRepository.save(user);
           } catch (e) {
+            if(req.file != null || req.file != undefined) {
+              if(fs.existsSync(req.file.path)) { // check if old image exist
+                  fs.unlink(req.file.path, (err) => {
+                      if(err) res.send({ error: err})
+                  }) // remove the old art image
+              }
+            }
             res.status(409).send({
               success: false,
               error: e.sqlMessage
@@ -96,11 +118,25 @@ class AuthController {
             return;
           }
         } else {
+          if(req.file != null || req.file != undefined) {
+            if(fs.existsSync(req.file.path)) { // check if old image exist
+                fs.unlink(req.file.path, (err) => {
+                    if(err) res.send({ error: err})
+                }) // remove the old art image
+            }
+          }
           res.status(400).send({ success: false, error: "User already exist!"});
           return;
         }
        
       } catch (error) {
+        if(req.file != null || req.file != undefined) {
+          if(fs.existsSync(req.file.path)) { // check if old image exist
+              fs.unlink(req.file.path, (err) => {
+                  if(err) res.send({ error: err})
+              }) // remove the old art image
+          }
+        }
         res.status(400).send(error);
         return;
       }
