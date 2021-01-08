@@ -49,7 +49,7 @@ class ArtController {
         art.title = title;
         art.place = place;
         art.image = (req.file.path != null && req.file.path != undefined) ? req.file.path : "";
-        art.price = price;
+        art.price = art.toCurrency(price, 'EUR');
         art.availableCopy = availableCopies;
         
         try {
@@ -109,7 +109,7 @@ class ArtController {
 
         //Validate the new values on model
         art.title = title;
-        art.price = price;
+        art.price = art.toCurrency(price, 'EUR');
         art.place = place;
         art.availableCopy = availableCopies;
         if(req.file.path != null || req.file.path != undefined) {
