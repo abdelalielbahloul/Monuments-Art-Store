@@ -3,150 +3,155 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { validate } from "class-validator";
 import 'dotenv/config';
+import * as fs from 'fs';
 
 class ArtController {
+    static baseURL: string = `${process.env.SERVER_HOST}:${process.env.PORT}`;
 
-  static index = async (req: Request, res: Response) => {  
-    const baseURL = `${process.env.SERVER_HOST}:${process.env.PORT}`;
+    static index = async (req: Request, res: Response) => {  
 
-    //Get Arts from database
-    const artRepository = getRepository(Art);
-    const arts = await artRepository
-                    .find({
-                      order: {
-                        id: 'DESC'
-                      }
-                    })
-    const response = {
-      count: arts.length,
-      users: arts.map(art => {        
-        return {
-          _id: art.artId,
-          title: art.title,
-          image: `${baseURL}/${art.image}`,
-          price: art.price,
-          place: art.place,
-          availableCopies: art.availableCopy,
-          createdAt: art.createdAt,
-          updatedAt: art.updatedAt
+        //Get Arts from database
+        const artRepository = getRepository(Art);
+        const arts = await artRepository
+                        .find({
+                        order: {
+                            id: 'DESC'
+                        }
+                        })
+        const response = {
+        count: arts.length,
+        users: arts.map(art => {        
+            return {
+            _id: art.artId,
+            title: art.title,
+            image: `${ArtController.baseURL}/${art.image}`,
+            price: art.price,
+            place: art.place,
+            availableCopies: art.availableCopy,
+            createdAt: art.createdAt,
+            updatedAt: art.updatedAt
+            }
+        })
         }
-      })
-    }
-    //Send the Arts object
-    res.send(response);
-  };
+        //Send the Arts object
+        res.send(response);
+    };
 
-  static create = async (req: Request, res: Response) => {
-    //Get parameters from the body  
-    let { title, price, place, availableCopies } = req.body;
-    if(!(title || price || place || availableCopies)) {
-      res.status(400).json({ error: "Bad Request" });
-      return;
-    }
-
-    let art = new Art();
-    art.title = title;
-    art.place = place;
-    art.image = (req.file.path != null && req.file.path != undefined) ? req.file.path : "";
-    art.price = price;
-    art.availableCopy = availableCopies;
-    
-    try {
-    //Validade if the parameters are ok
-    const errors = await validate(art, { validationError: { target: false } });
-    if (errors.length > 0) {
-        res.status(400).send(errors);
+    static create = async (req: Request, res: Response) => {
+        //Get parameters from the body  
+        let { title, price, place, availableCopies } = req.body;
+        if(!(title || price || place || availableCopies)) {
+        res.status(400).json({ error: "Bad Request" });
         return;
-    }
+        }
 
-    const artRepository = getRepository(Art);
-    const existedArt = await artRepository.findOne({ where: { title: title } })
-    
-    if(!existedArt) {
+        let art = new Art();
+        art.title = title;
+        art.place = place;
+        art.image = (req.file.path != null && req.file.path != undefined) ? req.file.path : "";
+        art.price = price;
+        art.availableCopy = availableCopies;
+        
         try {
-        await artRepository.save(art);
-        } catch (e) {
-        res.status(409).send({
-            success: false,
-            error: e.sqlMessage
-        });
+        //Validade if the parameters are ok
+        const errors = await validate(art, { validationError: { target: false } });
+        if (errors.length > 0) {
+            res.status(400).send(errors);
+            return;
+        }
+
+        const artRepository = getRepository(Art);
+        const existedArt = await artRepository.findOne({ where: { title: title } })
+        
+        if(!existedArt) {
+            try {
+            await artRepository.save(art);
+            } catch (e) {
+            res.status(409).send({
+                success: false,
+                error: e.sqlMessage
+            });
+            return;
+            }
+        } else {
+            res.status(400).send({ success: false, error: `Art with title: ${title} is already in use!`});
+            return;
+        }
+        
+        } catch (error) {
+        res.status(400).send(error);
         return;
         }
-    } else {
-        res.status(400).send({ success: false, error: `Art with title: ${title} is already in use!`});
+        //If all ok, send 201 response
+        res.status(201).send({
+            success: true,
+            message: "Art created successfully!"
+        });
+            
+    }
+
+    static edit = async (req: Request, res: Response) => {
+        //Get the ID from the url
+        const _id = req.params.id;
+
+        //Get values from the body
+        let { title, price, place, availableCopies } = req.body;
+
+        const artRepository = getRepository(Art);
+        let art: Art;
+        try {
+        art = await artRepository.findOneOrFail({ where: { artId: _id }});
+        } catch (error) {
+        //If not found, send a 404 response
+        res.status(404).send("Art not found");
         return;
-    }
-    
-    } catch (error) {
-    res.status(400).send(error);
-    return;
-    }
-    //If all ok, send 201 response
-    res.status(201).send({
-        success: true,
-        message: "Art created successfully!"
-    });
-          
-  }
+        }
 
-  static edit = async (req: Request, res: Response) => {
-    //Get the ID from the url
-    const _id = req.params.id;
+        //Validate the new values on model
+        art.title = title;
+        art.price = price;
+        art.place = place;
+        art.availableCopy = availableCopies;
+        if(req.file.path != null || req.file.path != undefined) {
+            fs.unlinkSync(art.image) // remove the old art image
+            art.image = req.file.path
+        }
 
-    //Get values from the body
-    let { title, price, place, availableCopies } = req.body;
+        const errors = await validate(art);
+        if (errors.length > 0) {
+            res.status(400).send(errors);
+            return;
+        }
 
-    const artRepository = getRepository(Art);
-    let art: Art;
-    try {
-      art = await artRepository.findOneOrFail({ where: { artId: _id }});
-    } catch (error) {
-      //If not found, send a 404 response
-      res.status(404).send("Art not found");
-      return;
-    }
+        //Try to save, if fails, that means title already in use
+        try {
+            await artRepository.save(art);
+        } catch (e) {
+            // fs.unlinkSync(art.image)
+            res.status(409).send(`Title: ${title} already in use!`);
+            return;
+        }
+        //After all send a 204 (no content, but accepted) response
+        res.status(204).send();
+    };
 
-    //Validate the new values on model
-    art.title = title;
-    art.price = price;
-    art.place = place;
-    art.availableCopy = availableCopies;
-    if(req.file.path != null || req.file.path != undefined) 
-        art.image = req.file.path
+    static delete = async (req: Request, res: Response) => {
+        //Get the ID from the url
+        const _id = req.params.id; 
+        const artRepository = getRepository(Art);
+        let art: Art;
+        try {
+            art = await artRepository.findOneOrFail({ where: { artId: _id }});
+        } catch (error) {
+            res.status(404).send({message: "Art not found"});
+            return;
+        }    
+        fs.unlinkSync(art.image)
+        await artRepository.remove(art);
 
-    const errors = await validate(art);
-    if (errors.length > 0) {
-      res.status(400).send(errors);
-      return;
-    }
-
-    //Try to save, if fails, that means title already in use
-    try {
-      await artRepository.save(art);
-    } catch (e) {
-      res.status(409).send(`Title: ${title} already in use!`);
-      return;
-    }
-    //After all send a 204 (no content, but accepted) response
-    res.status(204).send();
-  };
-
-  static delete = async (req: Request, res: Response) => {
-    //Get the ID from the url
-    const _id = req.params.id; 
-    const artRepository = getRepository(Art);
-    let art: Art;
-    try {
-      art = await artRepository.findOneOrFail({ where: { artId: _id }});
-    } catch (error) {
-      res.status(404).send({message: "Art not found"});
-      return;
-    }
-    await artRepository.remove(art);
-
-    //After all send a 204 (no content, but accepted) response
-    res.status(204).send();
-  };
+        //After all send a 204 (no content, but accepted) response
+        res.status(204).send();
+    };
 
 }
 
