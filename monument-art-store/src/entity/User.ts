@@ -6,13 +6,16 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     JoinColumn,
-    OneToOne
+    OneToOne,
+    ManyToOne,
+    Index
   } from "typeorm";
   import { Length, IsNotEmpty, IsEmail, IsInt, Matches } from "class-validator";
   import * as bcrypt from "bcryptjs";
 import { UserRole } from "./UserRole";
   @Entity()
   @Unique("Unique keys", ["email"])
+  @Index("FK_user_userRole", ["role"])
   export class User {
     @PrimaryGeneratedColumn("increment")
     id: number;
@@ -42,7 +45,7 @@ import { UserRole } from "./UserRole";
     @Column({nullable: true})
     userImage: string;
     
-    @OneToOne(() => UserRole, role => role.id)
+    @ManyToOne(() => UserRole, role => role.id)
     @JoinColumn()
     @IsNotEmpty({ message: 'User role is required' })
     role: UserRole;
