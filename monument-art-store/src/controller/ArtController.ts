@@ -167,7 +167,7 @@ class ArtController {
 
         //Try to save, if fails, that means title already in use
         try {
-            await artRepository.save(art);
+            await artRepository.update({ artId: art.artId }, art);
         } catch (e) {
             // fs.unlinkSync(art.image)
             res.status(409).send(`Title: ${title} already in use!`);
