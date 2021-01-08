@@ -28,7 +28,7 @@ export class Art {
 
     @Column({ nullable: false })
     @IsNotEmpty({ message: 'Price is required' })
-    price: number;
+    price: string;
 
     @Column({ nullable: false })
     @IsNotEmpty({ message: 'Available copies is required' })
@@ -41,5 +41,9 @@ export class Art {
     @Column()
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     updatedAt: Date;
+
+    toCurrency(price, currencyCode, lang = undefined) {
+        return Intl.NumberFormat(lang, { style: 'currency', currency: currencyCode}).format(price);
+    }
 
 }
