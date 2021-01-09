@@ -40,6 +40,7 @@ import { UserRole } from "./UserRole";
     @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#\$%\^&\*])(?=.{8,}).*$/, {
       message: 'Password must be at least 8 characters. And has one digit character (0-9), one word character (alphanumeric or underscore), and different of LINE FEED character, and has at least one of special character !@#\$%\^&\* and at least one upper/lower character'
     })
+    @IsNotEmpty({message: 'Password is required'})
     password: string;
 
     @Column({nullable: true})
