@@ -372,18 +372,17 @@
       },
       "/auth/login":{
         "post": {
-          "parameters": [
-            {
-              "in": "query",
-              "name": "body",
-              "description": "Sign in body",
-              "required": true,
-              "schema": {
-                "type":"object",
-                "$ref": "#/components/schemas/Login"
+          "requestBody":{
+            "description": "Sign to systgem",
+            "required": true,
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/Login"
+                }
               }
             }
-          ],
+          },
           "tags": [
             "Authentication"
           ],
@@ -399,6 +398,9 @@
                   }
                 }
               }
+            },
+            "400":{
+              "description": "Bad Request"
             }
           }
         }
