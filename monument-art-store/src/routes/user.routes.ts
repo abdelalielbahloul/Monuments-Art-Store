@@ -48,7 +48,7 @@ router.get("/:id", [checkJwt, checkRole(["ADMIN"])], UserController.show);
 router.post("/", upload.single('userImage'), [checkJwt, checkRole(["ADMIN"])], UserController.create);
 
 //Edit one user
-router.patch("/:id", [checkJwt, checkRole(["ADMIN"])], UserController.edit);
+router.patch("/:id", upload.single('userImage'), [checkJwt, checkRole(["ADMIN"])], UserController.edit);
 
 //Delete one user
 router.delete("/:id", [checkJwt, checkRole(["ADMIN"])], UserController.delete);
