@@ -1,4 +1,4 @@
-import { IsNotEmpty, Length } from "class-validator";
+import { IsNotEmpty, Length, Min } from "class-validator";
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { User } from "./User";
 
@@ -33,6 +33,7 @@ export class Art {
 
     @Column({ nullable: false })
     @IsNotEmpty({ message: 'Available copies is required' })
+    @Min(5, { message: 'Minimum number of copies is 5!'})
     availableCopy: number;
 
     @Column({ nullable: false })
