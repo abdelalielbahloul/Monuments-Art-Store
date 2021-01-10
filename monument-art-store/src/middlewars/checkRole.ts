@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { join } from "path";
 import { getRepository } from "typeorm";
 
 import { User } from "../entity/User";
@@ -14,10 +15,13 @@ const checkRole = (roles: Array<string>) => {
     const userRepository = getRepository(User);
     const roleRepository = getRepository(UserRole);
     let user: User;
-    let userRole: UserRole;
     try {
-      user = await userRepository.findOneOrFail({ where: { userId: userId }});     
-      userRole = await roleRepository.findOne(user.role);    
+      user = await userRepository.findOne({ userId: userId }, {
+        join: {
+          alias: 'user',
+          leftJoinAndSelect: { role: 'user.role'}
+        }
+      });        
 
     } catch (error) {
       res.status(401).send(error);
@@ -25,7 +29,7 @@ const checkRole = (roles: Array<string>) => {
     }
 
       //Check if Array of authorized roles includes the user's role
-    if (roles.indexOf(`${userRole.name}`, 0) > -1) 
+    if (roles.indexOf(`${user.role.name}`, 0) > -1) 
       next();
     else 
       res.status(401).send();
