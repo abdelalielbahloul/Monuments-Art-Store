@@ -116,6 +116,28 @@
           },
           "required": ["name", "email", "password", "role"]
         },
+        "UpdateUser":{
+          "type":"object",
+          "properties": {
+            "name":{
+              "type":"string"
+            },
+            "email":{
+              "type":"string"
+            },
+            "password":{
+              "type":"string"
+            },
+            "role":{
+              "type":"number",
+              "enum": ["1", "2"]
+            },
+            "userImage":{
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        },
         "Users":{
           "type":"object",
           "properties": {
@@ -308,17 +330,19 @@
               "schema":{
                 "type": "string"
               }
-            },
-            {
-              "in": "query",
-              "name": "body",
-              "description": "New user infos",
-              "schema": {
-                "type":"object",
-                "$ref": "#/components/schemas/CreateUser"
-              }
             }
           ],
+          "requestBody":{
+            "description": "Updated user data",
+            "required": true,
+            "content": {
+              "multipart/form-data":{
+                "schema":{
+                  "$ref": "#/components/schemas/UpdateUser"
+                }
+              }
+            }
+          },
           "tags": [
             "Users"
           ],
@@ -373,12 +397,16 @@
       "/auth/login":{
         "post": {
           "requestBody":{
-            "description": "Sign to systgem",
+            "description": "Login and password",
             "required": true,
             "content": {
               "application/json":{
                 "schema":{
                   "$ref":"#/components/schemas/Login"
+                },
+                "example": {
+                  "login": "admin@gmail.com",
+                  "password": "Admin@123"
                 }
               }
             }
@@ -395,6 +423,44 @@
                   "schema":{
                     "type":"object",
                     "$ref": "#/components/schemas/LoggedIn"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description": "Bad Request"
+            },
+            "404":{
+              "description": "Not Found"
+            }
+          }
+        }
+      },
+      "/auth/register":{
+        "post": {
+          "requestBody":{
+            "description": "New user infos",
+            "required": true,
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/CreateUser"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Registration"
+          ],
+          "summary": "Sign un to the system",
+          "responses": {
+            "201":{
+              "description": "Created",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type":"object",
+                    "$ref": "#/components/schemas/CreatedReqponse"
                   }
                 }
               }
