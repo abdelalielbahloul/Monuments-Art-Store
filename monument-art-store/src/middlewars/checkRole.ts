@@ -8,7 +8,7 @@ const checkRole = (roles: Array<string>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
 
     //Get the user ID from previous midleware
-    const userId = res.locals.jwtPayload.userId;
+    const userId = res.locals.jwtPayload.userId;    
 
     //Get user role from the database
     const userRepository = getRepository(User);
@@ -16,9 +16,8 @@ const checkRole = (roles: Array<string>) => {
     let user: User;
     let userRole: UserRole;
     try {
-      user = await userRepository.findOneOrFail(userId);     
-      userRole = await roleRepository.findOne(user.role);
-      
+      user = await userRepository.findOneOrFail({ where: { userId: userId }});     
+      userRole = await roleRepository.findOne(user.role);    
 
     } catch (error) {
       res.status(401).send(error);
