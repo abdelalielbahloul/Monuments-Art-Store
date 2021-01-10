@@ -46,12 +46,12 @@ class UserController {
 
   static show = async (req: Request, res: Response) => {
     //Get the ID from the url
-    const _id: string = req.params.id;
+    const _id = req.params.id;
 
     //Get the user from database
     const userRepository = getRepository(User);
     try {
-      const user = await userRepository.findOneOrFail(_id, {
+      const user = await userRepository.findOne(_id, {
         join: {
           alias: 'user',
           leftJoinAndSelect: { role: 'user.role'}
@@ -133,37 +133,70 @@ class UserController {
 
   static edit = async (req: Request, res: Response) => {
     //Get the ID from the url
-    const _id = req.params.id;
-
-    //Get values from the body
-    const { email, role, name } = req.body;
-    
+    const _id = req.params.id;   
 
     //Try to find user on database
     const userRepository = getRepository(User);
     let user: User;
     try {
-      user = await userRepository.findOneOrFail({ where: { userId: _id }});
+      user = await userRepository.findOneOrFail({ userId: _id }, {
+        join: {
+          alias: 'user',
+          leftJoinAndSelect: { role: 'user.role'}
+        }
+      });
+      
     } catch (error) {
       //If not found, send a 404 response
+      if(req.file != null || req.file != undefined) {
+        if(fs.existsSync(req.file.path)) { // check if old image exist
+            fs.unlink(req.file.path, (err) => {
+                if(err) res.send({ error: err})
+            }) // remove the old art image
+        }
+      }
       res.status(404).send({message: "User not found"});
       return;
     }
+    
+    if(req.body.email != undefined && req.body.email != '')
+      user.email = req.body.email;
+    if(req.body.role != undefined && req.body.role != '')
+      user.role = req.body.role;
+    if(req.body.name != undefined && req.body.name != '')
+      user.name = req.body.name;
+    if(req.body.password != undefined && req.body.password != '')
+      user.password = req.body.password
+    if(req.file != undefined) {
+      if(fs.existsSync(user.userImage)) { // check if old image exist
+        fs.unlink(user.userImage, (err) => {
+            if(err) res.send({ error: err})
+        }) // remove the old art image
+      }
+      user.userImage = req.file.path
+    }
 
     //Validate the new values on model
-    user.email = email;
-    user.role = role;
-    user.name = name;
     const errors = await validate(user, { validationError: { target: false } });
     if (errors.length > 0) {
       res.status(400).send(errors);
       return;
     }
+    
+    // hash password after validation
+    user.hashPassword()
 
     //Try to save, if fails, that means username already in use
     try {
       await userRepository.update({ userId: user.userId }, user);
     } catch (e) {      
+      if(req.file != null || req.file != undefined) {
+        if(fs.existsSync(req.file.path)) { // check if old image exist
+            fs.unlink(req.file.path, (err) => {
+                if(err) res.send({ error: err})
+            }) // remove the old art image
+        }
+      }
       res.status(409).send({error: "email already in use!"});
       return;
     }
@@ -178,7 +211,7 @@ class UserController {
     const userRepository = getRepository(User);
     let user: User;
     try {
-      user = await userRepository.findOneOrFail({where: { userId: _id }});
+      user = await userRepository.findOneOrFail({ where: { userId: _id }});
     } catch (error) {
       res.status(404).send({message: "User not found"});
       return;
