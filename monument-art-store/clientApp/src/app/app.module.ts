@@ -19,6 +19,7 @@ import { EditArtComponent } from './components/art/edit-art/edit-art.component';
 import { EditUserComponent } from './components/user/edit-user/edit-user.component';
 import { AddUserComponent } from './components/user/add-user/add-user.component';
 import { ListUserComponent } from './components/user/list-user/list-user.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ListUserComponent } from './components/user/list-user/list-user.compone
     EditArtComponent,
     EditUserComponent,
     AddUserComponent,
-    ListUserComponent
+    ListUserComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
