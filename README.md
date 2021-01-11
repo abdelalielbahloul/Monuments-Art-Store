@@ -8,7 +8,9 @@
 3. Re-name `.env.example` to `.env` 
 4. Run `npm start` command to start the backend server.
 ```
-Migrations are disabled for this project by default and each change in the entities will automaticaly applied to the database when server restarted.
+Migrations are disabled for this project by default and each 
+change in the entities will automaticaly applied to the database 
+when server restarted.
 ```
 take a see : [migrations](https://typeorm.io/#/migrations)
 
@@ -28,5 +30,3 @@ Please make sure to update tests as appropriate.
 ## License
 MIT License 
 [MIT](https://github.com/abdelalielbahloul/Monuments-Art-Store/blob/master/monument-art-store/LICENSE/)
-
-
