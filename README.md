@@ -1,4 +1,4 @@
-# Awesome Project Build with TypeORM
+# Monuments Art Store
 > Monuments Art Store an online platform used to purchase High-Quality Art Images of the most popular monuments around the world, developed with typeORM and express in backend. Angular as frontend framework
 
 ## Installation && Setup Steps to run this project:
