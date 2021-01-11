@@ -241,6 +241,25 @@
             }
           }
         },
+        "Register":{
+          "type":"object",
+          "properties": {
+            "name":{
+              "type":"string"
+            },
+            "email":{
+              "type":"string"
+            },
+            "password":{
+              "type":"string"
+            },
+            "userImage":{
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          "required": ["name", "email", "password"]
+        },
         "Login":{
           "type":"object",
           "properties": {
@@ -669,7 +688,7 @@
             "content": {
               "multipart/form-data":{
                 "schema":{
-                  "$ref":"#/components/schemas/CreateUser"
+                  "$ref":"#/components/schemas/Register"
                 }
               }
             }
