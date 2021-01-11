@@ -29,6 +29,10 @@
         "description": "APIs for users in the system"
       },
       {
+        "name": "Arts",
+        "description": "APIs for arts in the system"
+      },
+      {
         "name": "Authentication",
         "description": "APIs for authentication to the system"
       }
@@ -138,6 +142,54 @@
             }
           }
         },
+        "CreateArt":{
+          "type":"object",
+          "properties": {
+            "title":{
+              "type":"string"
+            },
+            "image":{
+              "type":"string"
+            },
+            "price":{
+              "type":"string"
+            },
+            "place":{
+              "type":"string"
+            },
+            "availableCopies":{
+              "type":"number"
+            },
+            "userId":{
+              "type":"number"
+            }
+          },
+          "required": ["title", "image", "price", "place", "availableCopies", "userId"]
+        },
+        "UpdateArt":{
+          "type":"object",
+          "properties": {
+            "title":{
+              "type":"string"
+            },
+            "image":{
+              "type":"string"
+            },
+            "price":{
+              "type":"string"
+            },
+            "place":{
+              "type":"string"
+            },
+            "availableCopies":{
+              "type":"number"
+            },
+            "userId":{
+              "type":"string"
+            }
+          },
+          "required": ["title", "image", "price", "place", "availableCopies", "userId"]
+        },
         "Users":{
           "type":"object",
           "properties": {
@@ -222,6 +274,178 @@
       }
     ],
     "paths": {
+      "/arts":{
+        "get": {
+          "tags": [
+            "Arts"
+          ],
+          "summary": "Get all arts in the system",
+          "responses": {
+            "200":{
+              "description": "OK",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type":"array",
+                    "items":{
+                      "$ref": "#/components/schemas/Arts"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Arts"
+          ],
+          "summary": "Create new art",
+          "requestBody":{
+            "description": "New art data",
+            "required": true,
+            "content": {
+              "multipart/form-data":{
+                "schema":{
+                  "type":"object",
+                  "$ref":"#/components/schemas/CreateArt"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201":{
+              "description": "Created",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "$ref": "#/components/schemas/CreatedResponse"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description": "Bad Request"
+            },
+            "409":{
+              "description": "Conflict"
+            },
+            "401":{
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/arts/{id}":{
+        "get": {
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "Id of the art",
+              "schema":{
+                "type": "string"
+              }
+            }
+          ],
+          "tags": [
+            "Arts"
+          ],
+          "summary": "Get one art by Id",
+          "responses": {
+            "200":{
+              "description": "OK",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "$ref": "#/components/schemas/Art"
+                  }
+                }
+              }              
+            },
+            "404":{
+              "description": "Not Found"
+            },
+            "401":{
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "patch": {
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "Id of the art",
+              "schema":{
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody":{
+            "description": "Updated art data",
+            "required": true,
+            "content": {
+              "multipart/form-data":{
+                "schema":{
+                  "$ref": "#/components/schemas/UpdateArt"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Arts"
+          ],
+          "summary": "Update art infos by Id",
+          "responses": {
+            "204":{
+              "description": "No Content"
+            },
+            "404":{
+              "description": "Not Found"
+            },
+            "400":{
+              "description": "Bad Request"
+            },
+            "409":{
+              "description": "Conflict"
+            },
+            "401":{
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "delete": {
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "description": "Id of the art",
+              "required": true,
+              "schema": {
+                "type":"string"
+              }
+            }
+          ],
+          "tags": [
+            "Arts"
+          ],
+          "summary": "Delete art by Id",
+          "responses": {
+            "204":{
+              "description": "No Content"
+            },
+            "404":{
+              "description": "Not Found"
+            },
+            "401":{
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
       "/users":{
         "get": {
           "tags": [
@@ -251,12 +475,13 @@
           ],
           "summary": "Create new user",
           "requestBody":{
+            "description": "New user data",
             "required": true,
             "content": {
               "multipart/form-data":{
                 "schema":{
                   "type":"object",
-                  "$ref":"#/components/schemas/CreatedUser"
+                  "$ref":"#/components/schemas/CreateUser"
                 }
               }
             }
@@ -442,7 +667,7 @@
             "description": "New user infos",
             "required": true,
             "content": {
-              "application/json":{
+              "multipart/form-data":{
                 "schema":{
                   "$ref":"#/components/schemas/CreateUser"
                 }
@@ -460,7 +685,7 @@
                 "application/json":{
                   "schema":{
                     "type":"object",
-                    "$ref": "#/components/schemas/CreatedReqponse"
+                    "$ref": "#/components/schemas/CreatedResponse"
                   }
                 }
               }
