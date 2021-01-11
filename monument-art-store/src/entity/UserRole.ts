@@ -11,7 +11,7 @@ export class UserRole {
     @Column({
         // type: "set",
         // enum: ["ADMIN", "USER"],
-        // default: `USER`
+        default: `USER`
     })
     @OneToMany(() => User, user => user.id)
     @IsUppercase()

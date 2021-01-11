@@ -52,8 +52,8 @@ class AuthController {
   static register = async (req: Request, res: Response) => {
       
     //Get parameters from the body  
-    let { name, email, password, role } = req.body;
-      if(!(name || email || password || role)) {
+    let { name, email, password } = req.body;
+      if(!(name || email || password)) {
         if(req.file != null || req.file != undefined) {
           if(fs.existsSync(req.file.path)) { // check if old image exist
               fs.unlink(req.file.path, (err) => {
@@ -70,54 +70,37 @@ class AuthController {
     user.email = email;
     user.userImage = (req.file != null && req.file != undefined) ? req.file.path : "";
     user.password = password;
-    user.role = role;
-
-    //validate the sent role
     const roleRepository = getRepository(UserRole);
-    const sentRole = await roleRepository.findOne({ where: { id: role } });
-    
-    if(sentRole != undefined && sentRole != null) {
-      let createdUser: User;
+    const role = await roleRepository.findOne({ where: { name: 'USER' } });
+    user.role = role
 
-      try {
-        //Validade if the parameters are ok
-        const errors = await validate(user, { validationError: { target: false } });
-        if (errors.length > 0) {
-          if(req.file != null || req.file != undefined) {
-              if(fs.existsSync(req.file.path)) { // check if old image exist
-                  fs.unlink(req.file.path, (err) => {
-                      if(err) res.send({ error: err})
-                  }) // remove the old art image
-              }
-          }
-          res.status(400).send(errors);
-          return;
-        }
+    let createdUser: User;
 
-        //Hash the password, to securely store on DB
-        user.hashPassword();
-
-        //Try to save. If fails, the email is already in use
-        const userRepository = getRepository(User);
-        const existedUser = await userRepository.findOne({ where: { email: email } })
-        if(!existedUser) {
-          try {
-            createdUser = await userRepository.save(user);
-          } catch (e) {
-            if(req.file != null || req.file != undefined) {
-              if(fs.existsSync(req.file.path)) { // check if old image exist
-                  fs.unlink(req.file.path, (err) => {
-                      if(err) res.send({ error: err})
-                  }) // remove the old art image
-              }
+    try {
+      //Validade if the parameters are ok
+      const errors = await validate(user, { validationError: { target: false } });
+      if (errors.length > 0) {
+        if(req.file != null || req.file != undefined) {
+            if(fs.existsSync(req.file.path)) { // check if old image exist
+                fs.unlink(req.file.path, (err) => {
+                    if(err) res.send({ error: err})
+                }) // remove the old art image
             }
-            res.status(409).send({
-              success: false,
-              error: e.sqlMessage
-            });
-            return;
-          }
-        } else {
+        }
+        res.status(400).send(errors);
+        return;
+      }
+
+      //Hash the password, to securely store on DB
+      user.hashPassword();
+
+      //Try to save. If fails, the email is already in use
+      const userRepository = getRepository(User);
+      const existedUser = await userRepository.findOne({ where: { email: email } })
+      if(!existedUser) {
+        try {
+          createdUser = await userRepository.save(user);
+        } catch (e) {
           if(req.file != null || req.file != undefined) {
             if(fs.existsSync(req.file.path)) { // check if old image exist
                 fs.unlink(req.file.path, (err) => {
@@ -125,11 +108,13 @@ class AuthController {
                 }) // remove the old art image
             }
           }
-          res.status(400).send({ success: false, error: "User already exist!"});
+          res.status(409).send({
+            success: false,
+            error: e.sqlMessage
+          });
           return;
         }
-       
-      } catch (error) {
+      } else {
         if(req.file != null || req.file != undefined) {
           if(fs.existsSync(req.file.path)) { // check if old image exist
               fs.unlink(req.file.path, (err) => {
@@ -137,24 +122,27 @@ class AuthController {
               }) // remove the old art image
           }
         }
-        res.status(400).send(error);
+        res.status(400).send({ success: false, error: "User already exist!"});
         return;
       }
-      //If all ok, send 201 response
-      res.status(201).send({
-        success: true,
-        message: "Registred successfully!",
-        _id: createdUser.userId
-      });
-
-    } else {
-      res.status(404).send({
-        success: false,
-        error: "User Role Not Found!"
-      });
+      
+    } catch (error) {
+      if(req.file != null || req.file != undefined) {
+        if(fs.existsSync(req.file.path)) { // check if old image exist
+            fs.unlink(req.file.path, (err) => {
+                if(err) res.send({ error: err})
+            }) // remove the old art image
+        }
+      }
+      res.status(400).send(error);
       return;
     }
-          
+    //If all ok, send 201 response
+    res.status(201).send({
+      success: true,
+      message: "Registred successfully!",
+      _id: createdUser.userId
+    });          
   }
 
   static changePassword = async (req: Request, res: Response) => {
