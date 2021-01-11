@@ -1,7 +1,21 @@
 {
    "name": "monument-art-store",
-   "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
+   "version": "1.0.0",
+   "description": "Monuments Art Store an online platform used to purchase High-Quality Art Images of the most popular monuments around the world, developed with typeORM and express in backend. Angular as frontend framework",
+   "license": "MIT License",
+   "author": {
+      "email": "bahloul97abdel@gmail.com",
+      "name": "EL BAHLOUL Abdelali",
+      "url": "https://www.linkedin.com/in/abdelali-el-bahloul/"
+   },
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/abdelalielbahloul/Monuments-Art-Store"
+   },
+   "homepage": "https://github.com/abdelalielbahloul/Monuments-Art-Store",
+   "readme": "https://github.com/abdelalielbahloul/Monuments-Art-Store/blob/master/README.md",
+   "displayName": "MONUMENT-ART-STORE",
+   "keywords": ["monument", "art", "store", "typeORM", "express", "nodejs", "typescript", "mysql", "angular", "api", "swagger"],
    "devDependencies": {
       "@types/bcryptjs": "^2.4.2",
       "@types/cors": "^2.8.9",
