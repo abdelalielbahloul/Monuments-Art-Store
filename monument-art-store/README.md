@@ -8,7 +8,9 @@
 3. Re-name `.env.example` to `.env` 
 4. Run `npm start` command to start the backend server.
 ```
-Migrations are disabled for this project by default and each change in the entities will automaticaly applied to the database when server restarted.
+Migrations are disabled for this project by default and each 
+change in the entities will automaticaly applied to the database 
+when server restarted.
 ```
 take a see : [migrations](https://typeorm.io/#/migrations)
 
