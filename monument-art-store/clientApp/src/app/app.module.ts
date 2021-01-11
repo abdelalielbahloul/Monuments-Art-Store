@@ -11,6 +11,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDividerModule } from '@angular/material/divider';
+
+
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AddArtComponent } from './components/art/add-art/add-art.component';
@@ -20,6 +24,19 @@ import { EditUserComponent } from './components/user/edit-user/edit-user.compone
 import { AddUserComponent } from './components/user/add-user/add-user.component';
 import { ListUserComponent } from './components/user/list-user/list-user.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AppRoutingModule } from './app-routing.module';
+
+const materialModules = [
+  MatGridListModule,
+  MatCardModule,
+  MatMenuModule,
+  MatIconModule,
+  MatButtonModule,
+  MatSidenavModule,
+  LayoutModule,
+  MatToolbarModule,
+  MatDividerModule
+]
 
 @NgModule({
   declarations: [
@@ -38,13 +55,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    LayoutModule,
-    MatSidenavModule
+    ...materialModules,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
