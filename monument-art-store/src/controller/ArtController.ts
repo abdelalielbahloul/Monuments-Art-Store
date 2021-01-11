@@ -146,11 +146,16 @@ class ArtController {
         }
 
         //Validate the new values on model
-        art.title = title;
-        art.price = art.toCurrency(price, 'EUR');
-        art.place = place;
-        art.userId = userId;
-        art.availableCopy = availableCopies;        
+        if(art.title != undefined && art.title != '')
+            art.title = title;
+        if(art.price != undefined && art.price != '')
+            art.price = art.toCurrency(price, 'EUR');
+        if(art.place != undefined && art.place != '')
+            art.place = place;
+        if(art.userId != undefined && art.userId != '')
+            art.userId = userId;
+        if(art.availableCopy != undefined && art.availableCopy > 0)
+            art.availableCopy = availableCopies;        
         if(req.file != null || req.file != undefined) {
             if(fs.existsSync(art.image)) { // check if old image exist
                 fs.unlink(art.image, (err) => {
