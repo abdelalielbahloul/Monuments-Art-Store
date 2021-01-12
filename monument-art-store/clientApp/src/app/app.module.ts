@@ -1,9 +1,9 @@
+import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -24,7 +24,6 @@ import { EditUserComponent } from './components/user/edit-user/edit-user.compone
 import { AddUserComponent } from './components/user/add-user/add-user.component';
 import { ListUserComponent } from './components/user/list-user/list-user.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { AppRoutingModule } from './app-routing.module';
 
 const materialModules = [
   MatGridListModule,
@@ -41,7 +40,6 @@ const materialModules = [
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     LoginComponent,
     RegisterComponent,
     AddArtComponent,
@@ -54,9 +52,9 @@ const materialModules = [
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
     ...materialModules,
-    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,1 +1,27 @@
-<app-dashboard></app-dashboard>
+<mat-sidenav-container class="sideNav-container">
+    <mat-sidenav class="sideNav" mode="side" [opened]="opened">
+        <h1 class="mat-h1">
+        <strong>Monument Art Store</strong>
+        </h1>
+        <mat-divider></mat-divider>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar class="toolbar">
+        <span class="menuBtn" (click)="opened = !opened">
+            <mat-icon>menu</mat-icon>
+        </span>
+        <span class="spacer"></span>
+        <span>
+            <mat-icon class="account-circle">
+            account_circle
+            </mat-icon>
+        </span>
+        </mat-toolbar>
+        <mat-divider>
+        </mat-divider>
+        <div class="container">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+  

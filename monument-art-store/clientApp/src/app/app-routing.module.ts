@@ -1,7 +1,6 @@
 import { RegisterComponent } from './components/register/register.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ListArtComponent } from './components/art/list-art/list-art.component';
 import { AddArtComponent } from './components/art/add-art/add-art.component';
 import { EditArtComponent } from './components/art/edit-art/edit-art.component';
@@ -30,8 +29,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
     RouterModule.forRoot(routes)
-  ]
+  ],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }
