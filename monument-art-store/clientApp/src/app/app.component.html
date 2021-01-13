@@ -9,7 +9,7 @@
         <mat-list>
             <div mat-subheader class="sideNavHeaderLink">Items</div>
             <mat-nav-list *ngFor="let item of menuItems">
-                <a mat-list-item [routerLink]="item.href">
+                <a mat-list-item [routerLink]="item.href" routerLinkActive="active">
                     <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
                     <div mat-line>{{item.name}}</div> 
                 </a>

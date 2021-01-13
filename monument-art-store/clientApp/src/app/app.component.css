@@ -55,3 +55,7 @@
 .sideNavHeaderLink {
     color: #a19f9f;
 }
+
+.active {
+    background-color: #e2dfdf;
+}
