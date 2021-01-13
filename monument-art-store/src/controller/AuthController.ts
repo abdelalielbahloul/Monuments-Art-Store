@@ -8,6 +8,7 @@ import { User } from "../entity/User";
 import config from "../config/config";
 import { UserRole } from "../entity/UserRole";
 import * as fs from 'fs';
+import { join } from "path";
 
 class AuthController {
   static login = async (req: Request, res: Response) => {
@@ -21,7 +22,12 @@ class AuthController {
     const userRepository = getRepository(User);
     let user: User;
     try {
-      user = await userRepository.findOneOrFail({ where: { email: login } });
+      user = await userRepository.findOne({ email: login }, { 
+        join: {
+          alias: 'user',
+          leftJoinAndSelect: { role: 'user.role'}
+        }
+      });
     } catch (error) {
       res.status(401).send({ msg: "Login faild!" });
     }
@@ -35,7 +41,8 @@ class AuthController {
     //Sign JWT, valid for 1 hour
     const token = jwt.sign({ 
                   userId: user.userId, 
-                  username: user.email 
+                  email: user.email,
+                  role: user.role.name
                 },
                 config.jwtSecret,
                 { expiresIn: "24h" }
