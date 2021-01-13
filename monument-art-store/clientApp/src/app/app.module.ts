@@ -13,17 +13,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { MatListModule } from '@angular/material/list';
 
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { AddArtComponent } from './components/art/add-art/add-art.component';
-import { ListArtComponent } from './components/art/list-art/list-art.component';
-import { EditArtComponent } from './components/art/edit-art/edit-art.component';
-import { EditUserComponent } from './components/user/edit-user/edit-user.component';
-import { AddUserComponent } from './components/user/add-user/add-user.component';
-import { ListUserComponent } from './components/user/list-user/list-user.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UsersComponent } from './components/users/users.component';
+import { ArtsComponent } from './components/arts/arts.component';
 
 const materialModules = [
   MatGridListModule,
@@ -34,7 +30,8 @@ const materialModules = [
   MatSidenavModule,
   LayoutModule,
   MatToolbarModule,
-  MatDividerModule
+  MatDividerModule,
+  MatListModule
 ]
 
 @NgModule({
@@ -42,13 +39,9 @@ const materialModules = [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    AddArtComponent,
-    ListArtComponent,
-    EditArtComponent,
-    EditUserComponent,
-    AddUserComponent,
-    ListUserComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    UsersComponent,
+    ArtsComponent
   ],
   imports: [
     BrowserModule,

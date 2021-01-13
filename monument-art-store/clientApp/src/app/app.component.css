@@ -25,7 +25,6 @@
 
 .sideNav {
     width: 250px;
-    background-color: #49aae2;
 }
 
 .spacer {
@@ -43,9 +42,12 @@
 }
 .mat-h1 {
     margin: 18px 15px 15px 15px;
-    color: #ffffff;
 }
 
 .container {
     margin: 10px 5px 0px 10px;
+}
+
+.sideNavHeaderLink {
+    color: #a19f9f;
 }

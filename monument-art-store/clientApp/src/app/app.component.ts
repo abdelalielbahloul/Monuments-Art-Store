@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Menu } from './models/menu';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,17 @@ import { Component } from '@angular/core';
 export class AppComponent {
   opened = true;
   title = 'clientApp';
+
+  menuItems: Menu[] = [
+    {
+      name: 'Arts',
+      icon: 'art_track',
+      href: '/arts'
+    },
+    {
+      name: 'users',
+      icon: 'groups',
+      href: '/users'
+    }
+  ];
 }
