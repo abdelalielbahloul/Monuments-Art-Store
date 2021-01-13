@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { join } from "path";
 import { getRepository } from "typeorm";
 
 import { User } from "../entity/User";
-import { UserRole } from "../entity/UserRole";
 
 const checkRole = (roles: Array<string>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -13,7 +11,6 @@ const checkRole = (roles: Array<string>) => {
 
     //Get user role from the database
     const userRepository = getRepository(User);
-    const roleRepository = getRepository(UserRole);
     let user: User;
     try {
       user = await userRepository.findOne({ userId: userId }, {
