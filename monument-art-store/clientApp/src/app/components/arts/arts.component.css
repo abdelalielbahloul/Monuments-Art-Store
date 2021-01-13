@@ -1,5 +1,5 @@
 .example-card {
-    max-width: 340px;
+    max-width: 350px;
 }
 
 .header {
@@ -9,4 +9,74 @@
 .example-header-image {
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
+}
+.card {
+    position: relative;
+}
+
+.bg-img {
+    height: 500px;
+    opacity: 0.8;
+}
+
+.container {
+    position: relative;
+    text-align: left;
+    color: white;
+    width: 430px;
+    /* height: 150px; */
+}
+  
+  /* Bottom left text */
+.bottom-left {
+    position: absolute;
+    bottom: 35px;
+    left: 60px;
+}
+
+/* Top left text */
+.top-left {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+}
+  
+/* Top right text */
+.top-right {
+    position: absolute;
+    top: -16px;
+    right: 13px;
+}
+  
+  /* Bottom right text */
+  .bottom-right {
+    position: absolute;
+    bottom: 35px;
+    right: 60px;
+  }
+  
+  /* Centered text */
+  .centered {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+  }
+
+.location {
+    margin-left: 10px;
+    margin-top: 10px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.example-button-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.btnEditArt {
+    margin-right: 8px;
+    background-color: rgb(250, 194, 41);
 }

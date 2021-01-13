@@ -14,6 +14,9 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -31,7 +34,9 @@ const materialModules = [
   LayoutModule,
   MatToolbarModule,
   MatDividerModule,
-  MatListModule
+  MatListModule,
+  MatFormFieldModule,
+  MatInputModule
 ]
 
 @NgModule({
