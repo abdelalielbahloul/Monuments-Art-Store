@@ -37,6 +37,10 @@
     margin-top: 10px;
 }
 
+.menuBtn {
+    font-size: 40px;
+}
+
 .menuBtn:hover {
     cursor: pointer;
 }
