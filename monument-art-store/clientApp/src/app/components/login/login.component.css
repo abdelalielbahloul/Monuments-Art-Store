@@ -1,0 +1,23 @@
+mat-card {
+    max-width: 400px;
+    margin: 2em auto;
+    text-align: center;
+}
+  
+mat-form-field {
+    display: block;
+}
+
+.account_circle {
+    font-size: 100px;
+    margin-left: -17%;
+}
+
+.registerP {
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.registerA {
+    text-decoration: none;
+}
