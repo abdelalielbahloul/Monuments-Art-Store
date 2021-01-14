@@ -20,11 +20,14 @@ class ArtController {
                         })
         const response = {
         count: arts.length,
-        arts: arts.map(art => {        
+        arts: arts.map(art => { 
+                   
             return {
                 _id: art.artId,
                 title: art.title,
-                image: `${ArtController.baseURL}/${art.image}`,
+                imagePath: `${ArtController.baseURL}/${art.image}`,
+                image: art.image.split('\\')[2],
+                description: art.description,
                 price: art.price,
                 place: art.place,
                 availableCopies: art.availableCopy,
@@ -39,7 +42,7 @@ class ArtController {
 
     static create = async (req: Request, res: Response) => {
         //Get parameters from the body  
-        let { title, price, place, availableCopies, userId } = req.body;
+        let { title, price, place, availableCopies, userId, description } = req.body;
         if(!(title || price || place || availableCopies || userId)) {
             if(req.file != null || req.file != undefined) {
                 if(fs.existsSync(req.file.path)) { // check if old image exist
@@ -55,6 +58,7 @@ class ArtController {
         let art = new Art();
         art.title = title;
         art.place = place;
+        art.description = (description !== null || description !== undefined) ? description : ""
         art.userId = userId;
         art.image = (req.file.path != null && req.file.path != undefined) ? req.file.path : "";
         art.price = art.toCurrency(price, 'EUR');
@@ -126,7 +130,7 @@ class ArtController {
         const _id = req.params.id;
 
         //Get values from the body
-        let { title, price, place, availableCopies, userId } = req.body;
+        let { title, price, place, availableCopies, userId, description } = req.body;
 
         const artRepository = getRepository(Art);
         let art: Art;
@@ -146,15 +150,17 @@ class ArtController {
         }
 
         //Validate the new values on model
-        if(art.title != undefined && art.title != '')
+        if(title != undefined && title != '')
             art.title = title;
-        if(art.price != undefined && art.price != '')
+        if(description != undefined && description != '')
+            art.description = description;
+        if(price != undefined && price != '')
             art.price = art.toCurrency(price, 'EUR');
-        if(art.place != undefined && art.place != '')
+        if(place != undefined && place != '')
             art.place = place;
-        if(art.userId != undefined && art.userId != '')
+        if(userId != undefined && userId != '')
             art.userId = userId;
-        if(art.availableCopy != undefined && art.availableCopy > 0)
+        if(availableCopies != undefined && availableCopies > 0)
             art.availableCopy = availableCopies;        
         if(req.file != null || req.file != undefined) {
             if(fs.existsSync(art.image)) { // check if old image exist
