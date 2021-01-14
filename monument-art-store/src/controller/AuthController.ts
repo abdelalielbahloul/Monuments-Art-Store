@@ -30,10 +30,11 @@ class AuthController {
       });
     } catch (error) {
       res.status(401).send({ msg: "Login faild!" });
+      return;
     }
 
-    //Check if encrypted password match
-    if (!user.checkIfUnencryptedPasswordIsValid(password)) {
+    //Check if encrypted password match and user exist
+    if ((user !== undefined && !user.checkIfUnencryptedPasswordIsValid(password)) || user === undefined || user === null) {
       res.status(404).send({ msg: "Login or password incorrect!" });
       return;
     }
