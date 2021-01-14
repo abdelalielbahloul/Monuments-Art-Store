@@ -18,6 +18,9 @@ export class Art {
     @IsNotEmpty({ message: 'Title is required' })
     title: string;
 
+    @Column({ nullable: true })
+    description: string;
+
     @Column({ nullable: false })
     @Length(6, 255, { message: 'Place must have at least 6 characters' })
     @IsNotEmpty({ message: 'Place is required' })
