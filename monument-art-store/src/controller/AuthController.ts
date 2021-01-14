@@ -34,7 +34,7 @@ class AuthController {
 
     //Check if encrypted password match
     if (!user.checkIfUnencryptedPasswordIsValid(password)) {
-      res.status(401).send({ msg: "Login failed!" });
+      res.status(404).send({ msg: "Login or password incorrect!" });
       return;
     }
 
