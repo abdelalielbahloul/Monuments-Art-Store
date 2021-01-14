@@ -1,5 +1,8 @@
+import { error } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -22,14 +25,23 @@ export class LoginComponent implements OnInit {
     ])
   })
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value);
-    
+    this.authService._login(this.loginForm.value).subscribe(res => {
+      console.log(res);
+      this.toastr.success("Congratulations you are logged in", "Success", { timeOut: 3000 })
+      
+    }, (err: any) => {
+      this.toastr.error(err.error.msg, err.statusText, { timeOut: 3000 })
+      
+    })
   }
 
 }

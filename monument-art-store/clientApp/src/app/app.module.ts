@@ -26,6 +26,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UsersComponent } from './components/users/users.component';
 import { ArtsComponent } from './components/arts/arts.component';
+import { ToastrModule } from 'ngx-toastr';
 
 const materialModules = [
   MatGridListModule,
@@ -57,7 +58,11 @@ const materialModules = [
     BrowserAnimationsModule,
     ...materialModules,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
