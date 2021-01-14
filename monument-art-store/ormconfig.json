@@ -6,7 +6,8 @@
    "password": "",
    "database": "monument_art_store",
    "synchronize": true,
-   "logging": false,
+   "logging": ["error"],
+   "logger": "file",
    "entities": [
       "src/entity/**/*.ts"
    ],
