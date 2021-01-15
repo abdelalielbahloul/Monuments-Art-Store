@@ -15,7 +15,19 @@
    "homepage": "https://github.com/abdelalielbahloul/Monuments-Art-Store",
    "readme": "https://github.com/abdelalielbahloul/Monuments-Art-Store/blob/master/README.md",
    "displayName": "MONUMENT-ART-STORE",
-   "keywords": ["monument", "art", "store", "typeORM", "express", "nodejs", "typescript", "mysql", "angular", "api", "swagger"],
+   "keywords": [
+      "monument",
+      "art",
+      "store",
+      "typeORM",
+      "express",
+      "nodejs",
+      "typescript",
+      "mysql",
+      "angular",
+      "api",
+      "swagger"
+   ],
    "devDependencies": {
       "@types/bcryptjs": "^2.4.2",
       "@types/cors": "^2.8.9",
@@ -36,6 +48,7 @@
       "express": "^4.15.4",
       "helmet": "^4.3.1",
       "jsonwebtoken": "^8.5.1",
+      "moment": "^2.29.1",
       "multer": "^1.4.2",
       "mysql": "^2.14.1",
       "reflect-metadata": "^0.1.10",
