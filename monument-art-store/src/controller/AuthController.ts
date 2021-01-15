@@ -53,7 +53,8 @@ class AuthController {
     res.send({
       success: true,
       token: token,
-      expiredIn: "24h"
+      expiredIn: "24h",
+      _id: user.userId
     });
   };
 
