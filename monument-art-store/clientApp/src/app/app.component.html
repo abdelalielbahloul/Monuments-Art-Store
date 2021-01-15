@@ -1,5 +1,11 @@
-
-<p *ngIf="currentUser"></p>
+<app-navbar *ngIf="currentUser"></app-navbar>
+<div class="container" *ngIf="currentUser">
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
 
 <div class="container login" *ngIf="!currentUser">
     <app-login></app-login>

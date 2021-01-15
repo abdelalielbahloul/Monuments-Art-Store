@@ -1,0 +1,12 @@
+.navItems {
+    letter-spacing: 10%;
+}
+
+nav {
+    height: 65px;
+}
+.logout {
+    background-color: transparent;
+    color: #000000;
+    border: none;
+}

@@ -17,6 +17,7 @@ import { UsersComponent } from './components/users/users.component';
 import { ArtsComponent } from './components/arts/arts.component';
 import { ToastrModule } from 'ngx-toastr';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { NavbarComponent } from './components/shared/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     RegisterComponent,
     NotFoundComponent,
     UsersComponent,
-    ArtsComponent
+    ArtsComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

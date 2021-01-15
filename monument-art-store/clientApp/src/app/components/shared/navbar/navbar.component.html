@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand" routerLink="/"><strong>Monument Art Store</strong></a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse navItems" id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/arts" routerLinkActive="active">
+                    <strong><i class="fa fa-photo"></i> Arts</strong>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/users" routerLinkActive="active">
+                    <strong><i class="fa fa-users"></i> Users</strong>
+                </a>
+            </li>
+        </ul>
+        <span class="d-flex">
+            <small class="text-muted mt-2 mr-4"><strong>{{currentUser.email}}</strong></small>
+            <a (click)="logout()" class="btn btn-primary logout" role="button">
+                <i class="fa fa-sign-out"></i>
+                Logout
+            </a>
+        </span>
+    </div>
+</nav>

@@ -10,27 +10,10 @@ import { Router } from '@angular/router';
 })
 
 export class AppComponent implements OnInit {
-  opened = true;
-  title = 'clientApp';
-
   currentUser = null
 
-  menuItems: Menu[] = [
-    {
-      name: 'Arts',
-      icon: 'art_track',
-      href: '/arts'
-    },
-    {
-      name: 'users',
-      icon: 'groups',
-      href: '/users'
-    }
-  ];
-
   constructor(
-    private tokenService: TokenService,
-    private router: Router
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
@@ -39,9 +22,4 @@ export class AppComponent implements OnInit {
     })
   }
 
-  logout() {
-    this.tokenService.remove();
-    this.tokenService.changeStatus(false);
-    this.router.navigateByUrl('/login')
-  }
 }
