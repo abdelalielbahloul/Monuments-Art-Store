@@ -1,5 +1,4 @@
 import { TokenService } from './../../services/token.service';
-import { error } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -50,6 +49,7 @@ export class LoginComponent implements OnInit {
 
   handleToken(response) {
     this.tokenService.handle(response);
+    this.tokenService.changeStatus(true);
     this.router.navigateByUrl('/arts')
   }
 

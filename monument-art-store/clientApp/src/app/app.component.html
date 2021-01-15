@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sideNav-container">
+<mat-sidenav-container *ngIf="currentUser" class="sideNav-container">
     <mat-sidenav class="sideNav" mode="side" [opened]="opened">
         <div class="sideNavTop">
             <h1 class="mat-h1">
@@ -34,7 +34,7 @@
                     <mat-divider></mat-divider>
                     <button mat-menu-item>
                         <mat-icon>notifications_off</mat-icon>
-                        <span>Logout</span>
+                        <span (click)="logout()">Logout</span>
                     </button>
                 </mat-menu>
             </span>
@@ -46,4 +46,6 @@
         </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
+
+<app-login *ngIf="!currentUser"></app-login>
   

@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
 import * as moment from "moment";
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
+
+  // check if the user is authentified and has a valid token
+  private loggedIn = new BehaviorSubject<boolean>(this.isLoggedIn());
+
+  // variable loggedIn should be an observable 
+  authStatus = this.loggedIn.asObservable();
 
   constructor() { }
 
@@ -74,6 +81,10 @@ export class TokenService {
 
   isLoggedOut() {
     return !this.isLoggedIn();
+  }
+
+  changeStatus(value: boolean) {
+    this.loggedIn.next(value);
   }
 
 
