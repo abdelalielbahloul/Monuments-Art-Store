@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
   handleToken(response) {
     this.tokenService.handle(response);
     this.tokenService.changeStatus(true);
-    this.router.navigateByUrl('/arts')
+    this.router.navigateByUrl('/')
   }
 
 }
