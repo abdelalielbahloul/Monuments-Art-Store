@@ -12,9 +12,9 @@ export class TokenService {
   constructor() {}
 
   set(data: any) {
-    const expiredIn = moment().add(data.expiredIn,'s');
+    const expiresIn = moment().add(data.expiresIn,'s');
     localStorage.setItem('token', data.token);
-    localStorage.setItem('expiredIn', JSON.stringify(expiredIn.valueOf()))
+    localStorage.setItem('expiresIn', JSON.stringify(expiresIn.valueOf()))
     localStorage.setItem('userId', data._id)
   }
 
@@ -31,14 +31,14 @@ export class TokenService {
   }
 
   getExpirationDate() {
-    const expiration = localStorage.getItem("expiredIn");
-    const expiredIn = JSON.parse(expiration);
-    return moment(expiredIn);
+    const expiration = localStorage.getItem("expiresIn");
+    const expiresIn = JSON.parse(expiration);
+    return moment(expiresIn);
 }  
 
   remove() {
     localStorage.removeItem('token');
-    localStorage.removeItem('expiredIn')
+    localStorage.removeItem('expiresIn')
     localStorage.removeItem('userId')
   }
 
