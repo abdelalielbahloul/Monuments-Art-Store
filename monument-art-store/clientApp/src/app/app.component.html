@@ -1,51 +1,6 @@
-<mat-sidenav-container *ngIf="currentUser" class="sideNav-container">
-    <mat-sidenav class="sideNav" mode="side" [opened]="opened">
-        <div class="sideNavTop">
-            <h1 class="mat-h1">
-                <strong>Monument Art Store</strong>
-            </h1>
-        </div>
-        <mat-divider></mat-divider>
-        <mat-list>
-            <div mat-subheader class="sideNavHeaderLink">Items</div>
-            <mat-nav-list *ngFor="let item of menuItems">
-                <a mat-list-item [routerLink]="item.href" routerLinkActive="active">
-                    <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
-                    <div mat-line>{{item.name}}</div> 
-                </a>
-            </mat-nav-list>
-        </mat-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <mat-toolbar class="toolbar">
-            <span class="menuBtn" (click)="opened = !opened">
-                <mat-icon>menu</mat-icon>
-            </span>
-            <span class="spacer"></span>
-            <span>
-                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                    <mat-icon class="account-circle">account_circle</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                    <button mat-menu-item>
-                        <mat-icon>person</mat-icon>
-                        <span>Account</span>
-                    </button>
-                    <mat-divider></mat-divider>
-                    <button mat-menu-item>
-                        <mat-icon>notifications_off</mat-icon>
-                        <span (click)="logout()">Logout</span>
-                    </button>
-                </mat-menu>
-            </span>
-        </mat-toolbar>
-        <mat-divider>
-        </mat-divider>
-        <div class="container">
-            <router-outlet></router-outlet>
-        </div>
-    </mat-sidenav-content>
-</mat-sidenav-container>
 
-<app-login *ngIf="!currentUser"></app-login>
-  
+<p *ngIf="currentUser"></p>
+
+<div class="container login" *ngIf="!currentUser">
+    <app-login></app-login>
+</div>
