@@ -7,30 +7,40 @@
     <mat-card-content class="content">
         <div class="container">
             <img class="bg-img" src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Snow">
-            <div class="bottom-left">Bottom Left</div>
-            <div class="top-left">
-                <mat-form-field class="example-full-width">
-                    <input matInput value="Title of art">
-                    <mat-hint class="location">Hint</mat-hint>
-                </mat-form-field>
+            <div class="bottom-left sections" contenteditable="true">
+                <h2 class="mat-h2">
+                    45 €
+                </h2>
+            </div>
+            <div class="top-left sections" contenteditable="true">
+                <h1 class="mat-h1">
+                    title of art
+                </h1>
+                <span contenteditable="false">Location:</span> <mat-hint class="location">Hint</mat-hint>
                 
             </div>
-            <div class="top-right">
+            <div class="top-right sectionBtns">
                 <div class="example-button-container">
                     <button class="btnEditArt" mat-mini-fab>
                       <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-mini-fab color="warn">
+                    <button class="btnDeleteArt" mat-mini-fab color="warn">
                         <mat-icon>delete</mat-icon>
+                    </button>
+                    <button class="btnEditValidate" mat-mini-fab>
+                        <mat-icon>check</mat-icon>
                     </button>
                 </div>
             </div>
-            <div class="bottom-right">Bottom Right</div>
-            <div class="centered">
-                <mat-form-field class="example-full-width">
-                    <mat-label>Leave a comment</mat-label>
-                    <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
-                </mat-form-field>
+            <div class="bottom-right sections" contenteditable="true">
+                <h2 class="mat-h2">
+                    67 <span contenteditable="false">Copies</span>
+                </h2> 
+            </div>
+            <div class="centered sections" contenteditable="true">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum repudiandae nemo non sint voluptate voluptas?
+                </p>
             </div>
         </div>        
     </mat-card-content>

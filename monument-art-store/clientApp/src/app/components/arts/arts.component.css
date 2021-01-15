@@ -1,21 +1,9 @@
-.example-card {
-    max-width: 350px;
-}
-
 .header {
     margin-bottom: 30px;
 }
 
-.example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
-}
-.card {
-    position: relative;
-}
-
 .bg-img {
-    height: 500px;
+    height: 520px;
     opacity: 0.8;
 }
 
@@ -23,8 +11,16 @@
     position: relative;
     text-align: left;
     color: white;
-    width: 430px;
+    width: 450px;
     /* height: 150px; */
+}
+
+.bg-img:hover ~ .sections {
+    visibility: visible;
+}
+
+.sections, .sectionBtns {
+    visibility: hidden;
 }
   
   /* Bottom left text */
@@ -45,7 +41,7 @@
 .top-right {
     position: absolute;
     top: -16px;
-    right: 13px;
+    right: 2px;
 }
   
   /* Bottom right text */
@@ -56,27 +52,34 @@
   }
   
   /* Centered text */
-  .centered {
+.centered {
     position: absolute;
-    top: 30%;
-    left: 30%;
+    top: 35%;
+    left: 40%;
     transform: translate(-50%, -50%);
-  }
+}
+
+.mat-h1 {
+    width: 256px;
+}
 
 .location {
     margin-left: 10px;
     margin-top: 10px;
     color: #ffffff;
     font-weight: 600;
-}
-
-.example-button-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    position: relative;
 }
 
 .btnEditArt {
     margin-right: 8px;
     background-color: rgb(250, 194, 41);
+}
+
+.btnDeleteArt {
+    margin-right: 8px;
+}
+
+.btnEditValidate {
+    background-color: rgba(6, 122, 31, 0.973);
 }
