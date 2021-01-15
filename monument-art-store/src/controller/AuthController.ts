@@ -46,14 +46,14 @@ class AuthController {
                   role: user.role.name
                 },
                 config.jwtSecret,
-                { expiresIn: "24h" }
+                { expiresIn: "7d" }
     );
 
     //Send the jwt in the response
     res.send({
       success: true,
       token: token,
-      expiredIn: "24h",
+      expiresIn: "7d",
       _id: user.userId
     });
   };
