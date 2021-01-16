@@ -15,6 +15,7 @@
 
 .invalid-feedback {
     background: #ffffff;
+    padding-left: 5px;
 }
 
 .card-body {

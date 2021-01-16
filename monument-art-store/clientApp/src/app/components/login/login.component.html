@@ -64,30 +64,30 @@
                                         <i class="fa" [ngClass]="{'fa-eye-slash': hide, 'fa-eye': !hide}"></i>
                                     </span>
                                 </div>
-                            </div>
-                            <div 
-                                class="invalid-feedback"
-                                *ngIf="loginForm.get('password').invalid 
-                                && (loginForm.get('password').touched 
-                                || loginForm.get('password').dirty) && loginForm.get('password').getError('required')"
-                            >
-                                Password is required
-                            </div>
-                            <div 
-                                class="invalid-feedback"
-                                *ngIf="loginForm.get('password').invalid 
-                                && (loginForm.get('password').touched 
-                                || loginForm.get('password').dirty) && loginForm.get('password').getError('minLength')"
-                            >
-                                Password must have at least 8 characters
-                            </div>
-                            <div 
-                                class="invalid-feedback"
-                                *ngIf="loginForm.get('password').invalid 
-                                && (loginForm.get('password').touched 
-                                || loginForm.get('password').dirty) && loginForm.get('password').getError('pattern')"
-                            >
-                                Password must be at least 8 characters. And has one digit character (0-9), one word character (alphanumeric or underscore), and different of LINE FEED character, and has at least one of special character !@#\$%\^&\* and at least one upper/lower character
+                                <div 
+                                    class="invalid-feedback"
+                                    *ngIf="loginForm.get('password').invalid 
+                                    && (loginForm.get('password').touched 
+                                    || loginForm.get('password').dirty) && loginForm.get('password').getError('required')"
+                                >
+                                    Password is required
+                                </div>
+                                <div 
+                                    class="invalid-feedback"
+                                    *ngIf="loginForm.get('password').invalid 
+                                    && (loginForm.get('password').touched 
+                                    || loginForm.get('password').dirty) && loginForm.get('password').getError('minLength')"
+                                >
+                                    Password must have at least 8 characters
+                                </div>
+                                <div 
+                                    class="invalid-feedback"
+                                    *ngIf="loginForm.get('password').invalid 
+                                    && (loginForm.get('password').touched 
+                                    || loginForm.get('password').dirty) && loginForm.get('password').getError('pattern')"
+                                >
+                                    Password must be at least 8 characters. And has one digit character (0-9), one word character (alphanumeric or underscore), and different of LINE FEED character, and has at least one of special character !@#\$%\^&\* and at least one upper/lower character
+                                </div>
                             </div>
                         </div>
                         <button 
