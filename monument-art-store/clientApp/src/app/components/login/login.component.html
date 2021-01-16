@@ -14,30 +14,34 @@
                                 placeholder="Email" 
                                 formControlName="login" 
                                 required
+                                [ngClass]="{'is-invalid': (loginForm.get('login').invalid 
+                                && (loginForm.get('login').touched 
+                                || loginForm.get('login').dirty)), 'is-valid': loginForm.get('login').valid}"
+                                id="inputInvalid"
                             >
                             <div 
+                                class="invalid-feedback"
                                 *ngIf="loginForm.get('login').invalid 
                                 && (loginForm.get('login').touched 
-                                || loginForm.get('login').dirty)"
+                                || loginForm.get('login').dirty) && loginForm.get('login').getError('required')"
                             >
-                                <small 
-                                    class="form-text text-muted"
-                                    *ngIf="loginForm.get('login').getError('required')"
-                                >
-                                    Email is required
-                                </small>
-                                <small 
-                                    class="form-text text-muted"
-                                    *ngIf="loginForm.get('login').getError('minLength')"
-                                >
-                                    Email must have at least 12 characters
-                                </small>
-                                <small 
-                                    class="form-text text-muted"
-                                    *ngIf="loginForm.get('login').getError('email')"
-                                >
-                                    This field must be a valid email address
-                                </small>
+                                Email is required
+                            </div>
+                            <div 
+                                class="invalid-feedback"
+                                *ngIf="loginForm.get('login').invalid 
+                                && (loginForm.get('login').touched 
+                                || loginForm.get('login').dirty) && loginForm.get('login').getError('minLength')"
+                            >
+                                Email must have at least 12 characters
+                            </div>
+                            <div 
+                                class="invalid-feedback"
+                                *ngIf="loginForm.get('login').invalid 
+                                && (loginForm.get('login').touched 
+                                || loginForm.get('login').dirty) && loginForm.get('login').getError('email')"
+                            >
+                                This field must be a valid email address
                             </div>
                         </div>
                         <div class="form-group">
@@ -48,35 +52,39 @@
                                 type="password" 
                                 formControlName="password" 
                                 required
+                                [ngClass]="{'is-invalid': (loginForm.get('password').invalid 
+                                && (loginForm.get('password').touched 
+                                || loginForm.get('password').dirty)), 'is-valid': loginForm.get('password').valid}"
+                                id="inputInvalid"
                             >
                             <div 
+                                class="invalid-feedback"
                                 *ngIf="loginForm.get('password').invalid 
                                 && (loginForm.get('password').touched 
-                                || loginForm.get('password').dirty)"
+                                || loginForm.get('password').dirty) && loginForm.get('password').getError('required')"
                             >
-                                <small 
-                                    class="form-text text-muted"
-                                    *ngIf="loginForm.get('password').getError('required')"
-                                >
-                                    Password is required
-                                </small>
-                                <small 
-                                    class="form-text text-muted"
-                                    *ngIf="loginForm.get('password').getError('minLength')"
-                                >
-                                    Password must have at least 8 characters
-                                </small>
-                                <small 
-                                    class="form-text text-muted"
-                                    *ngIf="loginForm.get('password').getError('pattern')"
-                                >
-                                    Password must be at least 8 characters. And has one digit character (0-9), one word character (alphanumeric or underscore), and different of LINE FEED character, and has at least one of special character !@#\$%\^&\* and at least one upper/lower character
-                                </small>
+                                Password is required
+                            </div>
+                            <div 
+                                class="invalid-feedback"
+                                *ngIf="loginForm.get('password').invalid 
+                                && (loginForm.get('password').touched 
+                                || loginForm.get('password').dirty) && loginForm.get('password').getError('minLength')"
+                            >
+                                Password must have at least 8 characters
+                            </div>
+                            <div 
+                                class="invalid-feedback"
+                                *ngIf="loginForm.get('password').invalid 
+                                && (loginForm.get('password').touched 
+                                || loginForm.get('password').dirty) && loginForm.get('password').getError('pattern')"
+                            >
+                                Password must be at least 8 characters. And has one digit character (0-9), one word character (alphanumeric or underscore), and different of LINE FEED character, and has at least one of special character !@#\$%\^&\* and at least one upper/lower character
                             </div>
                         </div>
                         <button 
                             [disabled]="loginForm.touched && loginForm.invalid" 
-                            class="btn btn-outline-light loginBtn"
+                            class="btn btn-outline-light loginBtn mt-4"
                         >
                             <strong>Login</strong>
                         </button>

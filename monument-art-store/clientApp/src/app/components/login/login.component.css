@@ -6,10 +6,15 @@
 
 .card-title {
     text-transform: uppercase;
+    color: #ffffff;
 }
 
-.card > * {
+.form-text, label {
     color: #ffffff !important;
+}
+
+.invalid-feedback {
+    background: #ffffff;
 }
 
 .card-body {
@@ -31,13 +36,6 @@
 
 .loginForm {
     margin-top: 20px;
-}
-
-small {
-    color: red !important; 
-    font-weight: 600;
-    background-color: #ffffff;
-    padding: 2%;
 }
 
 .card-footer {
