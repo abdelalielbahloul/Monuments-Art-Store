@@ -8,7 +8,7 @@
 <div class="row mx-auto my-4">
     <div class="col-md-3 my-2" *ngFor="let user of users">
         <div class="card mb-3">
-            <img [src]="user.image" class="card-img-top" [alt]="user.name">
+            <img [src]="user.image.length !== 0 ? user.image : '/assets/no-image.jpg'" class="card-img-top" [alt]="user.name">
             <div class="card-body">
                 <h5 class="card-title">{{ user.name }}</h5>
                 <p class="card-text"> {{ user.email }} </p>
@@ -161,6 +161,7 @@
                             formControlName="userImage" 
                             type="file" 
                             hidden
+                            accept=".jpeg,.png,.jpg"
                             (change)="imageFileChanged($event)"
                         >
                     </label> <br>
