@@ -25,7 +25,6 @@ class UserController {
                       }
                     })
     const response = {
-      count: users.length,
       users: await Promise.all(users.map(async user => {     
         const artRepository = getRepository(Art)        
         return {
@@ -41,7 +40,7 @@ class UserController {
       }))
     }
     //Send the users object
-    res.send(response);
+    res.send(response.users);
   };
 
   static show = async (req: Request, res: Response) => {

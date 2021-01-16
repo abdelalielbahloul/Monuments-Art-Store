@@ -19,25 +19,23 @@ class ArtController {
                         }
                         })
         const response = {
-        count: arts.length,
-        arts: arts.map(art => { 
-                   
-            return {
-                _id: art.artId,
-                title: art.title,
-                imagePath: `${ArtController.baseURL}/${art.image}`,
-                image: art.image.split('\\')[2],
-                description: art.description,
-                price: art.price,
-                place: art.place,
-                availableCopies: art.availableCopy,
-                createdAt: art.createdAt,
-                updatedAt: art.updatedAt
-            }
-        })
+            arts: arts.map(art => { 
+                return {
+                    _id: art.artId,
+                    title: art.title,
+                    imagePath: `${ArtController.baseURL}/${art.image}`,
+                    image: art.image.split('\\')[2],
+                    description: art.description,
+                    price: art.price,
+                    place: art.place,
+                    availableCopies: art.availableCopy,
+                    createdAt: art.createdAt,
+                    updatedAt: art.updatedAt
+                }
+            })
         }
         //Send the Arts object
-        res.send(response);
+        res.send(response.arts);
     };
 
     static create = async (req: Request, res: Response) => {
