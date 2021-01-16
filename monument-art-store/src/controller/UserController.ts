@@ -25,12 +25,12 @@ class UserController {
                       }
                     })
     const response = {
-      users: await Promise.all(users.map(async user => {     
+      users: await Promise.all(users.map(async user => {            
         const artRepository = getRepository(Art)        
         return {
           _id: user.userId,
           name: user.name,
-          image: `${baseURL}/${user.userImage}`,
+          image: user.userImage.trim().length !== 0 ? `${baseURL}/${user.userImage}` : '',
           email: user.email,
           role: user.role,
           contributions: await artRepository.count({ where: { userId: user.userId }}),

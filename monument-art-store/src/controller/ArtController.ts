@@ -23,7 +23,7 @@ class ArtController {
                 return {
                     _id: art.artId,
                     title: art.title,
-                    imagePath: `${ArtController.baseURL}/${art.image}`,
+                    imagePath: art.image.trim().length !== 0 ? `${ArtController.baseURL}/${art.image}` : '',
                     image: art.image.split('\\')[2],
                     description: art.description,
                     price: art.price,
