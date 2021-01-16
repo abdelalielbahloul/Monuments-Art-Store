@@ -1,7 +1,8 @@
 .card  {
     transition: transform .1s, filter .1s ease-in-out;
     filter: scale(100%);
-    min-height: 180px;
+    max-height: 358px;
+    height: 358px;
 }
   
 .card:hover {
@@ -9,4 +10,27 @@
     transform: scale(1.05);
     border-color: #03a9f4;
     cursor: pointer;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.invalid {
+    color: red;
+}
+
+.upload-btn {
+    align-items: center;
+    padding-top: 5px;
+    width: 100px;
+}
+
+.upload-btn > .fa-plus {
+    font-size: 31px;
+}
+
+.card > img {
+    max-height: 170px;
+    height: 170px;
 }
