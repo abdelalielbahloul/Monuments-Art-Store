@@ -7,6 +7,8 @@
     </div>
 </div>
 
-<div class="container login" *ngIf="!currentUser">
-    <app-login></app-login>
+<div class="login" *ngIf="!currentUser">
+    <video src="assets/drone_footage_valley.mp4" muted loop autoplay></video>
+    <div class="overlay"></div>
+    <app-login class="loginForm"></app-login>
 </div>

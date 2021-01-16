@@ -4,6 +4,7 @@
 
 nav {
     height: 65px;
+    background: #ffffff !important;
 }
 .logout {
     background-color: transparent;

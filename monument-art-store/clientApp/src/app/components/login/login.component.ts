@@ -37,12 +37,9 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.authService._login(this.loginForm.value).subscribe(res => {
+    this.authService._login(this.loginForm.value).subscribe(res => {      
       this.handleToken(res)
-      this.toastr.success("Congratulations you are logged in", "Success", { timeOut: 3000 })
-      
-    }, (err: any) => {
-      this.toastr.error(err.error.msg, err.statusText, { timeOut: 3000 })
+      this.toastr.success("Congratulations you are logged in", "Welcome", { timeOut: 2000 })
       
     })
   }

@@ -1,88 +1,90 @@
-<div class="row">
-    <div class="col-md-6 offset-md-3">
-        <div class="card">
-            <div class="card-body">
-                <h1 class="card-title"><strong>Welcome</strong></h1>
-                <span class="text-muted">Sign in to <strong>monument art store</strong></span>
-                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="loginForm">
-                    <div class="form-group">
-                        <label for="email"><strong>Email</strong></label>
-                        <input 
-                            type="email" 
-                            class="form-control" 
-                            placeholder="Email" 
-                            formControlName="login" 
-                            required
-                        >
-                        <div 
-                            *ngIf="loginForm.get('login').invalid 
-                            && (loginForm.get('login').touched 
-                            || loginForm.get('login').dirty)"
-                        >
-                            <small 
-                                class="form-text text-muted"
-                                *ngIf="loginForm.get('login').getError('required')"
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title"><strong>Welcome</strong></h1>
+                    <span class="form-text">Sign in to <strong>monument art store</strong></span>
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="loginForm">
+                        <div class="form-group">
+                            <label for="email"><strong>Email</strong></label>
+                            <input 
+                                type="email" 
+                                class="form-control" 
+                                placeholder="Email" 
+                                formControlName="login" 
+                                required
                             >
-                                Email is required
-                            </small>
-                            <small 
-                                class="form-text text-muted"
-                                *ngIf="loginForm.get('login').getError('minLength')"
+                            <div 
+                                *ngIf="loginForm.get('login').invalid 
+                                && (loginForm.get('login').touched 
+                                || loginForm.get('login').dirty)"
                             >
-                                Email must have at least 12 characters
-                            </small>
-                            <small 
-                                class="form-text text-muted"
-                                *ngIf="loginForm.get('login').getError('email')"
-                            >
-                                This field must be a valid email address
-                            </small>
+                                <small 
+                                    class="form-text text-muted"
+                                    *ngIf="loginForm.get('login').getError('required')"
+                                >
+                                    Email is required
+                                </small>
+                                <small 
+                                    class="form-text text-muted"
+                                    *ngIf="loginForm.get('login').getError('minLength')"
+                                >
+                                    Email must have at least 12 characters
+                                </small>
+                                <small 
+                                    class="form-text text-muted"
+                                    *ngIf="loginForm.get('login').getError('email')"
+                                >
+                                    This field must be a valid email address
+                                </small>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="password"><strong>Password</strong></label>
-                        <input 
-                            class="form-control" 
-                            placeholder="Password"
-                            type="password" 
-                            formControlName="password" 
-                            required
-                        >
-                        <div 
-                            *ngIf="loginForm.get('password').invalid 
-                            && (loginForm.get('password').touched 
-                            || loginForm.get('password').dirty)"
-                        >
-                            <small 
-                                class="form-text text-muted"
-                                *ngIf="loginForm.get('password').getError('required')"
+                        <div class="form-group">
+                            <label for="password"><strong>Password</strong></label>
+                            <input 
+                                class="form-control" 
+                                placeholder="Password"
+                                type="password" 
+                                formControlName="password" 
+                                required
                             >
-                                Email is required
-                            </small>
-                            <small 
-                                class="form-text text-muted"
-                                *ngIf="loginForm.get('password').getError('minLength')"
+                            <div 
+                                *ngIf="loginForm.get('password').invalid 
+                                && (loginForm.get('password').touched 
+                                || loginForm.get('password').dirty)"
                             >
-                                Email must have at least 8 characters
-                            </small>
-                            <small 
-                                class="form-text text-muted"
-                                *ngIf="loginForm.get('password').getError('pattern')"
-                            >
-                                Password must be at least 8 characters. And has one digit character (0-9), one word character (alphanumeric or underscore), and different of LINE FEED character, and has at least one of special character !@#\$%\^&\* and at least one upper/lower character
-                            </small>
+                                <small 
+                                    class="form-text text-muted"
+                                    *ngIf="loginForm.get('password').getError('required')"
+                                >
+                                    Password is required
+                                </small>
+                                <small 
+                                    class="form-text text-muted"
+                                    *ngIf="loginForm.get('password').getError('minLength')"
+                                >
+                                    Password must have at least 8 characters
+                                </small>
+                                <small 
+                                    class="form-text text-muted"
+                                    *ngIf="loginForm.get('password').getError('pattern')"
+                                >
+                                    Password must be at least 8 characters. And has one digit character (0-9), one word character (alphanumeric or underscore), and different of LINE FEED character, and has at least one of special character !@#\$%\^&\* and at least one upper/lower character
+                                </small>
+                            </div>
                         </div>
-                    </div>
-                    <button 
-                        [disabled]="loginForm.touched && loginForm.invalid" 
-                        class="btn btn-outline-primary loginBtn"
-                    >
-                        <strong>Login</strong>
-                    </button>
-                </form>
-            </div>
-            <div class="card-footer text-center">
-               <cite class="text-muted">New to Monument Art Store ?</cite> <a class="registerA" routerLink="/register"> Sign up</a>
+                        <button 
+                            [disabled]="loginForm.touched && loginForm.invalid" 
+                            class="btn btn-outline-light loginBtn"
+                        >
+                            <strong>Login</strong>
+                        </button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                   <cite class="form-text">New to Monument Art Store ? &nbsp;<a class="registerA" routerLink="/register">Sign up</a></cite>
+                </div>
             </div>
         </div>
     </div>

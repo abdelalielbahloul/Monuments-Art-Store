@@ -1,7 +1,23 @@
 .login {
-    padding-top: 140px;
+    padding-top: 160px;
+    width: 100%;
 }
 
-.dashboard {
-    margin: 0;
+video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #03a9f4;
+    mix-blend-mode: overlay;
 }
