@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <h1 class="card-title"><strong>Welcome</strong></h1>
                     <span class="form-text">Sign in to <strong>monument art store</strong></span>
-                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="loginForm">
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="loginForm" autocomplete="off">
                         <div class="form-group">
                             <label for="email"><strong>Email</strong></label>
                             <input 
@@ -17,7 +17,7 @@
                                 [ngClass]="{'is-invalid': (loginForm.get('login').invalid 
                                 && (loginForm.get('login').touched 
                                 || loginForm.get('login').dirty)), 'is-valid': loginForm.get('login').valid}"
-                                id="inputInvalid"
+                                
                             >
                             <div 
                                 class="invalid-feedback"
@@ -46,17 +46,25 @@
                         </div>
                         <div class="form-group">
                             <label for="password"><strong>Password</strong></label>
-                            <input 
-                                class="form-control" 
-                                placeholder="Password"
-                                type="password" 
-                                formControlName="password" 
-                                required
-                                [ngClass]="{'is-invalid': (loginForm.get('password').invalid 
-                                && (loginForm.get('password').touched 
-                                || loginForm.get('password').dirty)), 'is-valid': loginForm.get('password').valid}"
-                                id="inputInvalid"
-                            >
+                            <div class="input-group mb-3">
+                                <input 
+                                    class="form-control" 
+                                    placeholder="Password"
+                                    autocomplete="new-password"
+                                    [type]="hide ? 'password' : 'text'" 
+                                    formControlName="password" 
+                                    required
+                                    [ngClass]="{'is-invalid': (loginForm.get('password').invalid 
+                                    && (loginForm.get('password').touched 
+                                    || loginForm.get('password').dirty)), 'is-valid': loginForm.get('password').valid}"
+                                    
+                                >
+                                <div class="input-group-append">
+                                    <span class="input-group-text" role="button" (click)="hide = !hide">
+                                        <i class="fa" [ngClass]="{'fa-eye-slash': hide, 'fa-eye': !hide}"></i>
+                                    </span>
+                                </div>
+                            </div>
                             <div 
                                 class="invalid-feedback"
                                 *ngIf="loginForm.get('password').invalid 
@@ -83,7 +91,7 @@
                             </div>
                         </div>
                         <button 
-                            [disabled]="loginForm.touched && loginForm.invalid" 
+                            [disabled]="loginForm.invalid" 
                             class="btn btn-outline-light loginBtn mt-4"
                         >
                             <strong>Login</strong>
