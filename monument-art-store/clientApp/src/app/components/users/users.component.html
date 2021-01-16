@@ -1,1 +1,22 @@
-<p>users works</p>
+<div class="row mx-auto my-4">
+    <div class="col-md-12 text-right">
+        <button type="button" class="btn btn-outline-primary bnt-sm">
+            <i class="fa fa-plus"></i> Add
+        </button>
+    </div>
+</div>
+<div class="row mx-auto my-4">
+    <div class="col-md-3 my-2" *ngFor="let user of users">
+        <div class="card mb-3">
+            <img [src]="user.image" class="card-img-top" [alt]="user.name">
+            <div class="card-body">
+                <h5 class="card-title">{{ user.name }}</h5>
+                <p class="card-text"> {{ user.email }} </p>
+                <p class="card-text">
+                    {{ user.contributions }} <small class="text-muted"> Contributions</small>
+                    <cite class="text-muted d-flex mt-2"> {{ user.role.name }} </cite>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

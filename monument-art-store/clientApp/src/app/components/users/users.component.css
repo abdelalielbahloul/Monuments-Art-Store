@@ -1,12 +1,12 @@
-.example-card {
-    max-width: 350px;
+.card  {
+    transition: transform .1s, filter .1s ease-in-out;
+    filter: scale(100%);
+    min-height: 180px;
 }
-
-.header {
-    margin-bottom: 30px;
-}
-
-.example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
+  
+.card:hover {
+    filter: scale(0);
+    transform: scale(1.05);
+    border-color: #03a9f4;
+    cursor: pointer;
 }
