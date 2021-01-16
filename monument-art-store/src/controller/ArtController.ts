@@ -6,7 +6,7 @@ import 'dotenv/config';
 import * as fs from 'fs';
 
 class ArtController {
-    static baseURL: string = `${process.env.SERVER_HOST}:${process.env.PORT}`;
+    static baseURL: string = `${process.env.BASE_URL}:${process.env.PORT}`;
 
     static index = async (req: Request, res: Response) => {  
 

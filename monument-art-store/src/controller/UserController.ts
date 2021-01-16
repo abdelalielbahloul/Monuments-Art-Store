@@ -10,7 +10,7 @@ import { Art } from "../entity/Art";
 class UserController {
 
   static index = async (req: Request, res: Response) => {
-    const baseURL = `${process.env.SERVER_HOST}:${process.env.PORT}`;
+    const baseURL = `${process.env.BASE_URL}:${process.env.PORT}`;
 
     //Get users from database
     const userRepository = getRepository(User);
