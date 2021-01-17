@@ -25,6 +25,14 @@ export class UserService {
         catchError(this.handleError)
       )
   }
+
+  _delete(id: string) {
+    return this.http.delete(`${environment.apiUrl}/users/${id}`)
+      .pipe(
+        map(res => res),
+        catchError(this.handleError)
+      )
+  }
   
   handleError(error) { 
     return throwError(error);

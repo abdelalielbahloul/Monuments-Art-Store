@@ -1,12 +1,17 @@
 <div class="row mx-auto my-4">
     <div class="col-md-12 text-right">
-        <button type="button" class="btn btn-outline-primary bnt-sm" data-toggle="modal" data-target="#addUserDialog">
+        <button 
+            type="button" 
+            class="btn btn-outline-primary btn-sm" 
+            data-toggle="modal" 
+            data-target="#UserDialog"
+        >
             <i class="fa fa-plus"></i> Add
         </button>
     </div>
 </div>
 <div class="row mx-auto my-4">
-    <div class="col-md-3 my-2" *ngFor="let user of users">
+    <div class="col-md-4 my-2" *ngFor="let user of users">
         <div class="card mb-3">
             <img [src]="user.image.length !== 0 ? user.image : '/assets/no-image.jpg'" class="card-img-top" [alt]="user.name">
             <div class="card-body">
@@ -16,19 +21,32 @@
                     {{ user.contributions }} <small class="text-muted"> Contributions</small>
                     <cite class="text-muted d-flex mt-2"> {{ user.role.name }} </cite>
                 </p>
+                <div class="text-right">
+                    <a role="button" class="card-link">
+                        <i class="fa fa-pencil"></i> Update
+                    </a>
+                    <a 
+                        role="button" 
+                        class="card-link text-red"
+                        (click)="deleteUser(user._id)"
+                    >
+                        <i class="fa fa-trash"></i> Delete
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="addUserDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="UserDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title">New User</h3>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+            <h3 class="modal-title">New User</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <div class="modal-body">
             <form [formGroup]="createForm" (ngSubmit)="createUser()" autocomplete="off">
