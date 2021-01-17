@@ -6,11 +6,12 @@ import { LoginComponent } from './components/login/login.component';
 import { ArtsComponent } from './components/arts/arts.component';
 import { UsersComponent } from './components/users/users.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: '/arts', pathMatch: 'full', canActivate: [AuthGuard]},
   { path: 'arts', component: ArtsComponent, canActivate: [AuthGuard] },
-  { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
+  { path: 'users', component: UsersComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'login', component: LoginComponent, canActivate: [AfterAuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [AfterAuthGuard] }
 ]
