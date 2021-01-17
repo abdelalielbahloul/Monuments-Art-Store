@@ -90,10 +90,10 @@ class UserController {
     const errors = await validate(user, { validationError: { target: false } });
     if (errors.length > 0) {
       if(req.file != null || req.file != undefined) {
-        if(fs.existsSync(req.file.path)) { // check if old image exist
-            fs.unlink(req.file.path, (err) => {
-                if(err) res.send({ error: err})
-            }) // remove the old art image
+        if(user.userImage.length !== 0 && fs.existsSync(user.userImage)) { // check if old image exist
+          fs.unlink(user.userImage, (err) => {
+              if(err) res.send({ error: err})
+          }) // remove the old art image
         }
       }
       res.status(400).send(errors);
@@ -110,10 +110,10 @@ class UserController {
       createdUser = await userRepository.save(user);
     } catch (e) {
       if(req.file != null || req.file != undefined) {
-        if(fs.existsSync(req.file.path)) { // check if old image exist
-            fs.unlink(req.file.path, (err) => {
-                if(err) res.send({ error: err})
-            }) // remove the old art image
+        if(user.userImage.length !== 0 && fs.existsSync(user.userImage)) { // check if old image exist
+          fs.unlink(user.userImage, (err) => {
+              if(err) res.send({ error: err})
+          }) // remove the old art image
         }
       }
       res.status(409).send({
@@ -168,12 +168,12 @@ class UserController {
     if(req.body.password != undefined && req.body.password != '')
       user.password = req.body.password
     if(req.file != undefined) {
-      if(fs.existsSync(user.userImage)) { // check if old image exist
+      if(user.userImage.length !== 0 && fs.existsSync(user.userImage)) { // check if old image exist
         fs.unlink(user.userImage, (err) => {
             if(err) res.send({ error: err})
         }) // remove the old art image
       }
-      user.userImage = req.file.path
+      user.userImage = req.file.path // add new image
     }
 
     //Validate the new values on model
@@ -191,11 +191,12 @@ class UserController {
       await userRepository.update({ userId: user.userId }, user);
     } catch (e) {      
       if(req.file != null || req.file != undefined) {
-        if(fs.existsSync(req.file.path)) { // check if old image exist
-            fs.unlink(req.file.path, (err) => {
-                if(err) res.send({ error: err})
-            }) // remove the old art image
+        if(user.userImage.length !== 0 && fs.existsSync(user.userImage)) { // check if old image exist
+          fs.unlink(user.userImage, (err) => {
+              if(err) res.send({ error: err})
+          }) // remove the old art image
         }
+        user.userImage = req.file.path // add new image
       }
       res.status(409).send({error: "email already in use!"});
       return;
@@ -217,7 +218,11 @@ class UserController {
       return;
     }
     // delete image of deleted user
-    fs.unlinkSync(user.userImage);
+    if(user.userImage.length !== 0 && fs.existsSync(user.userImage)) { // check if old image exist
+      fs.unlink(user.userImage, (err) => {
+          if(err) res.send({ error: err})
+      }) // remove the old art image
+    }
     await userRepository.remove(user);
 
     //After all send a 204 (no content, but accepted) response
