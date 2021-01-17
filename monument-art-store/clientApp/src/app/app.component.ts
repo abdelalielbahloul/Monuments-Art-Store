@@ -1,7 +1,5 @@
 import { TokenService } from './services/token.service';
 import { Component, OnInit } from '@angular/core';
-import { Menu } from './models/menu';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +8,7 @@ import { Router } from '@angular/router';
 })
 
 export class AppComponent implements OnInit {
+
   currentUser = null
 
   constructor(
