@@ -32,22 +32,10 @@ export class UsersComponent implements OnInit {
     ]),
     userImage: new FormControl(null)
   })
-  // updateForm = new FormGroup({
-  //   name: new FormControl(null, Validators.minLength(3)),
-  //   email: new FormControl(null, [
-  //     Validators.email,
-  //     Validators.minLength(12)
-  //   ]),
-  //   role: new FormControl(2),
-  //   password: new FormControl(null, [
-  //     Validators.minLength(8), 
-  //     Validators.pattern(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#\$%\^&\*])(?=.{8,}).*$/)
-  //   ]),
-  //   userImage: new FormControl(null)
-  // })
 
   users: User[] = []
   selectedImage: File = null
+  selectedUser: User = null
 
   constructor(
     private userService: UserService,
@@ -63,7 +51,7 @@ export class UsersComponent implements OnInit {
       this.users = res
     }, err => {
       console.table(err)
-      this.toastr.error('An error has occured while fetching data', 'Error', { timeOut: 3000})
+      this.toastr.error(err.error.error !== undefined ? err.error.error : err.message, 'Error', { timeOut: 3000})
     })
   }
 
@@ -98,12 +86,12 @@ export class UsersComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.userService._delete(_id).subscribe(res => {
-          // refresh users list
+          // refresh users list after deleting
           this.users = this.users.filter(user => user._id !== _id)
           this.toastr.success('User has been deleted Successfully!', 'OK', { timeOut: 3000 })
         }, err => {
           console.table(err)
-          this.toastr.error(err.error.error !== undefined ? err.message : 'An error has occured', err.statusCode, { timeOut: 4000 })
+          this.toastr.error(err.error.error !== undefined ? err.error.error : err.message, err.statusCode, { timeOut: 4000 })
         })
         
       // For more information about handling dismissals please visit
@@ -113,11 +101,14 @@ export class UsersComponent implements OnInit {
     
   }
 
+  showEditDialog(user: User) {
+    console.log(user);
+    
+  }
+
   imageFileChanged(event) {
     this.selectedImage = <File>event.target.files[0];
   }
-
-
 
   generatePassword() {
     let length = 8,

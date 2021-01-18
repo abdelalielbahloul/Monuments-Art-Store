@@ -4,7 +4,7 @@
             type="button" 
             class="btn btn-outline-primary btn-sm" 
             data-toggle="modal" 
-            data-target="#UserDialog"
+            data-target="#addUserDialog"
         >
             <i class="fa fa-plus"></i> Add
         </button>
@@ -22,7 +22,11 @@
                     <cite class="text-muted d-flex mt-2"> {{ user.role.name }} </cite>
                 </p>
                 <div class="text-right">
-                    <a role="button" class="card-link">
+                    <a 
+                        role="button" 
+                        class="card-link"
+                        (click)="showEditDialog(user)"
+                    >
                         <i class="fa fa-pencil"></i> Update
                     </a>
                     <a 
@@ -39,7 +43,7 @@
 </div>
 
 
-<div class="modal fade" id="UserDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addUserDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -194,7 +198,6 @@
                 type="button" 
                 class="btn btn-outline-primary"
                 [disabled]="createForm.invalid"
-                (click)="createUser()"
             >
                 Create
             </button>
