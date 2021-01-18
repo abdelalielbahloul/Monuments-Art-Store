@@ -118,7 +118,7 @@ class UserController {
       }
       res.status(409).send({
         success: false,
-        error: e
+        error: e.sqlMessage
       });
       return;
     }

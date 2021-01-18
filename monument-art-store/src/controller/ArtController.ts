@@ -99,7 +99,7 @@ class ArtController {
                         }) // remove the old art image
                     }
                 }
-                res.status(400).send({ success: false, error: `Art with title: ${title} is already in use!`});
+                res.status(409).send({ success: false, error: `Art with title: ${title} is already in use!`});
                 return;
             }
         
