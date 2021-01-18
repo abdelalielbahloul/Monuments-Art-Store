@@ -27,17 +27,17 @@ export class JwtInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError(err => {
         if ([401, 403].includes(err.status) && this.tokenService.getInfos()) {
-            // auto logout if 401 or 403 response returned from api
-          this.toastr.error(err.message, err.statusText, { timeOut: 4000 })
+          console.table(err)
         }
 
         if (err.status === 404) {
-          this.toastr.error(err.error.msg, err.statusText, { timeOut: 4000 })
-        }
+          console.table(err);
+          
+        }        
+        // const error = (err && err.error && err.error.message) || err.statusText;
+        // this.toastr.error(err.message !== undefined ? err.message : 'An error has occured', err.statusText, { timeOut: 4000 })
 
-        const error = (err && err.error && err.error.message) || err.statusText;
-        console.error(err);
-        return throwError(error);
+        return throwError(err);
       })
     );
   }

@@ -19,7 +19,7 @@ export class UserService {
   }
 
   _create(data: FormData) {
-    return this.http.post(`${environment.apiUrl}/users`, data, { reportProgress: true, observe: 'events'})
+    return this.http.post(`${environment.apiUrl}/users`, data)
       .pipe(
         map(res => res),
         catchError(this.handleError)

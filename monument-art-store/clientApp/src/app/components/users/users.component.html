@@ -195,19 +195,8 @@
                 class="btn btn-outline-primary"
                 [disabled]="createForm.invalid"
                 (click)="createUser()"
-                *ngIf="!loading"
             >
-                <i class="fa-fa-spinner"></i>
                 Create
-            </button>
-            <button 
-                type="button" 
-                class="btn btn-link"
-                disabled
-                *ngIf="loading && progress !== 0"
-            >
-                <i class="fa-fa-spinner"></i>
-                {{progress}}%
             </button>
         </div>
       </div>

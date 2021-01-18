@@ -48,8 +48,6 @@ export class UsersComponent implements OnInit {
 
   users: User[] = []
   selectedImage: File = null
-  loading = false
-  progress = 0
 
   constructor(
     private userService: UserService,
@@ -64,25 +62,20 @@ export class UsersComponent implements OnInit {
     this.userService._fetch().subscribe(res => {
       this.users = res
     }, err => {
-      console.dir(err)
+      console.table(err)
       this.toastr.error('An error has occured while fetching data', 'Error', { timeOut: 3000})
     })
   }
 
 
   createUser() {
-    this.loading = true;
-    this.userService._create(this.objectToFormData(this.createForm)).subscribe( event => {
-      if (event.type === HttpEventType.UploadProgress)
-        this.progress = Math.round((100 * event.loaded)/ event.total)     
-        
-      this.loading = false
+    this.userService._create(this.objectToFormData(this.createForm)).subscribe( res => {
       this.reset()
       this.getAll()
-      this.toastr.success('User created Successfully!', 'Created', { timeOut: 3000})
+      this.toastr.success('User created Successfully!', 'Created', { timeOut: 3000 })
     }, err => {
-      console.dir(err)
-      this.toastr.error('An error has occured while creating', 'Error', { timeOut: 3000})
+      console.table("table: ", err)
+      this.toastr.error(err.error.error, err.statusText, { timeOut: 4000 })
     })
     
   }
@@ -109,8 +102,8 @@ export class UsersComponent implements OnInit {
           this.users = this.users.filter(user => user._id !== _id)
           this.toastr.success('User has been deleted Successfully!', 'OK', { timeOut: 3000 })
         }, err => {
-          console.dir(err)
-          this.toastr.error('An error has occured while deleting this user', 'Error', { timeOut: 3000 })
+          console.table(err)
+          this.toastr.error(err.error.error !== undefined ? err.message : 'An error has occured', err.statusCode, { timeOut: 4000 })
         })
         
       // For more information about handling dismissals please visit
