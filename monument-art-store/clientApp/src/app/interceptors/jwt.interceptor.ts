@@ -27,14 +27,12 @@ export class JwtInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError(err => {
         if ([401, 403].includes(err.status) && this.tokenService.getInfos()) {
-          console.table(err)
           this.toastr.error('An error of ' + err.statusText +' has occured', err.statusText, { timeOut: 4000 })
 
         }
 
         if (err.status === 404) {
-          console.table(err);
-          this.toastr.error(err.error.msg, err.statusText, { timeOut: 4000 })
+          this.toastr.error(err.error.message, err.statusText, { timeOut: 4000 })
           
         }        
         // const error = (err && err.error && err.error.message) || err.statusText;

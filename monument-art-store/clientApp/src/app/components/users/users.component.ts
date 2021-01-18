@@ -50,7 +50,7 @@ export class UsersComponent implements OnInit {
     this.userService._fetch().subscribe(res => {
       this.users = res
     }, err => {
-      console.table(err)
+      console.dir(err)
       this.toastr.error(err.error.error !== undefined ? err.error.error : err.message, 'Error', { timeOut: 3000})
     })
   }
@@ -62,7 +62,7 @@ export class UsersComponent implements OnInit {
       this.getAll()
       this.toastr.success('User created Successfully!', 'Created', { timeOut: 3000 })
     }, err => {
-      console.table("table: ", err)
+      console.dir("table: ", err)
       this.toastr.error(err.error.error, err.statusText, { timeOut: 4000 })
     })
     
@@ -90,8 +90,7 @@ export class UsersComponent implements OnInit {
           this.users = this.users.filter(user => user._id !== _id)
           this.toastr.success('User has been deleted Successfully!', 'OK', { timeOut: 3000 })
         }, err => {
-          console.table(err)
-          this.toastr.error(err.error.error !== undefined ? err.error.error : err.message, err.statusCode, { timeOut: 4000 })
+          console.dir(err)
         })
         
       // For more information about handling dismissals please visit
