@@ -104,7 +104,7 @@ export class ModalComponent implements OnInit, OnChanges {
   }
 
   objectToFormData(user: FormGroup): any {
-   
+    
     const fd = new FormData();
     fd.append('name', user.get('name').value)  
     fd.append('email', user.get('email').value)    

@@ -1,38 +1,15 @@
 .card  {
     transition: transform .1s, filter .1s ease-in-out;
     filter: scale(100%);
-    /* max-height: 370px;
-    height: 370px; */
+    opacity: 0.7;
 }
   
 .card:hover {
-    filter: scale(0);
-    transform: scale(1.01);
+    /* filter: scale(0); */
+    /* transform: scale(1.01); */
     border-color: #03a9f4;
     cursor: pointer;
-}
-
-[hidden] {
-    display: none !important;
-}
-
-.invalid {
-    color: red;
-}
-
-.upload-btn {
-    align-items: center;
-    padding-top: 5px;
-    width: 100px;
-}
-
-.upload-btn > .fa-plus {
-    font-size: 31px;
-}
-
-.card > img {
-    max-height: 250px;
-    height: 250px;
+    opacity: 1;
 }
 
 .text-red {

@@ -1,8 +1,6 @@
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from "../../models/user";
-import { HttpEventType } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2'
 
@@ -13,29 +11,8 @@ import Swal from 'sweetalert2'
 })
 export class UsersComponent implements OnInit {
 
-  hide = true;
-  createForm = new FormGroup({
-    name: new FormControl(null, [
-      Validators.required, 
-      Validators.minLength(3)
-    ]),
-    email: new FormControl(null, [
-      Validators.required, 
-      Validators.email,
-      Validators.minLength(12)
-    ]),
-    role: new FormControl(2, Validators.required),
-    password: new FormControl(null, [
-      Validators.required, 
-      Validators.minLength(8), 
-      Validators.pattern(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#\$%\^&\*])(?=.{8,}).*$/)
-    ]),
-    userImage: new FormControl(null)
-  })
-
   users: User[] = []
-  selectedImage: File = null
-  selectedUser: User = null
+  selectedUser = null
 
   constructor(
     private userService: UserService,
@@ -55,18 +32,6 @@ export class UsersComponent implements OnInit {
     })
   }
 
-
-  createUser() {
-    this.userService._create(this.objectToFormData(this.createForm)).subscribe( res => {
-      this.reset()
-      this.getAll()
-      this.toastr.success('User created Successfully!', 'Created', { timeOut: 3000 })
-    }, err => {
-      console.dir("table: ", err)
-      this.toastr.error(err.error.error, err.statusText, { timeOut: 4000 })
-    })
-    
-  }
 
   deleteUser(_id: string) {
     const swal = Swal.mixin({
@@ -100,41 +65,30 @@ export class UsersComponent implements OnInit {
     
   }
 
-  showEditDialog(user: User) {
-    console.log(user);
+  persistUserData(data: any) {
+    data._id !== null ? this.updateUser(data.formData, data._id) : this.createUser(data.formData)
     
   }
 
-  imageFileChanged(event) {
-    this.selectedImage = <File>event.target.files[0];
+  updateUser(user: FormData, userId) {
+    this.userService._update(user, userId).subscribe(() => {
+      this.getAll()
+      this.toastr.success('User updated Successfully!', 'Updated', { timeOut: 3000 })
+    }, err => {
+      console.dir(err)
+      this.toastr.error(err.error.error, err.statusText, { timeOut: 4000 })
+    })
   }
 
-  generatePassword() {
-    let length = 8,
-        charset = "abcdefghijklmnop!@#\$%\^&\*qrstuvwxyzABC234567DEFGHIJKLMNOPQRSTUVWXYZ0189!@#\$%\^&\*",
-        retVal = "";
-    for (let i = 0, n = charset.length; i < length; ++i) {
-        retVal += charset.charAt(Math.floor(Math.random() * n));
-    }
-    this.createForm.get('password').setValue(retVal)
-
+  createUser(user: FormData) {
+    this.userService._create(user).subscribe( (res: User) => {
+      this.getAll()
+      this.toastr.success('User created Successfully!', 'Created', { timeOut: 3000 })
+    }, err => {
+      console.dir(err)
+      this.toastr.error(err.error.error, err.statusText, { timeOut: 4000 })
+    })
   }
-
-
-  reset() {
-    this.createForm.reset()
-  }
-
-  objectToFormData(user: FormGroup): FormData {
-    const fd = new FormData();
-    fd.append('name', user.get('name').value)  
-    fd.append('email', user.get('email').value)    
-    fd.append('role', user.get('role').value)    
-    fd.append('password', user.get('password').value)   
-    if(user.get('userImage').value !== null) 
-      fd.append('userImage', this.selectedImage, this.selectedImage.name)    
-    return fd;
-  }
-
+  
 
 }

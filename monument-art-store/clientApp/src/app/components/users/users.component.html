@@ -4,7 +4,7 @@
             type="button" 
             class="btn btn-outline-primary btn-sm" 
             data-toggle="modal" 
-            data-target="#addUserDialog"
+            data-target="#UserDialog"
         >
             <i class="fa fa-plus"></i> Add
         </button>
@@ -25,9 +25,11 @@
                     <a 
                         role="button" 
                         class="card-link"
-                        (click)="showEditDialog(user)"
+                        (click)="selectedUser = user"
+                        data-toggle="modal" 
+                        data-target="#UserDialog"
                     >
-                        <i class="fa fa-pencil"></i> Update
+                        <i class="fa fa-pencil"></i> Edit
                     </a>
                     <a 
                         role="button" 
@@ -42,165 +44,4 @@
     </div>
 </div>
 
-
-<div class="modal fade" id="addUserDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">New User</h3>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form [formGroup]="createForm" (ngSubmit)="createUser()" autocomplete="off">
-                <div class="form-group">
-                    <label class="form-control-label" for="name"><strong>Name</strong></label>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        formControlName="name"
-                        placeholder="Name.."
-                        [ngClass]="{'is-invalid': (createForm.get('name').invalid && (createForm.get('name').touched || createForm.get('name').dirty)), 'is-valid': createForm.get('name').valid}"
-                    >
-                    <div class="invalid-feedback" *ngIf="createForm.get('name').invalid && (createForm.get('name').touched || createForm.get('name').dirty) && createForm.get('name').getError('required')">Name is required</div>
-                    <div class="invalid-feedback" *ngIf="createForm.get('name').invalid && (createForm.get('name').touched || createForm.get('name').dirty) && createForm.get('name').getError('minLength')">Name must have at least 3 characters</div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-control-label" for="email"><strong>Email</strong></label>
-                    <input 
-                        type="text" 
-                        placeholder="Email.." 
-                        formControlName="email"
-                        class="form-control" 
-                        [ngClass]="{'is-invalid': (createForm.get('email').invalid && (createForm.get('email').touched || createForm.get('email').dirty)), 'is-valid': createForm.get('email').valid}"
-                    >
-                    <div 
-                        class="invalid-feedback"
-                        *ngIf="createForm.get('email').invalid 
-                        && (createForm.get('email').touched 
-                        || createForm.get('email').dirty) && createForm.get('email').getError('required')"
-                    >
-                        Email is required
-                    </div>
-                    <div 
-                        class="invalid-feedback"
-                        *ngIf="createForm.get('email').invalid 
-                        && (createForm.get('email').touched 
-                        || createForm.get('email').dirty) && createForm.get('email').getError('minLength')"
-                    >
-                        Email must have at least 12 characters
-                    </div>
-                    <div 
-                        class="invalid-feedback"
-                        *ngIf="createForm.get('email').invalid 
-                        && (createForm.get('email').touched 
-                        || createForm.get('email').dirty) && createForm.get('email').getError('email')"
-                    >
-                        This field must be a valid email address
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="password"><strong>Password</strong></label>
-                    <div class="input-group mb-3">
-                        <input 
-                            class="form-control" 
-                            autocomplete="new-password"
-                            placeholder="Password"
-                            [type]="hide ? 'password' : 'text'" 
-                            formControlName="password" 
-                            required
-                            [ngClass]="{'is-invalid': (createForm.get('password').invalid 
-                            && (createForm.get('password').touched 
-                            || createForm.get('password').dirty)), 'is-valid': createForm.get('password').valid}"
-                        >
-                        <div class="input-group-append">
-                            <span class="input-group-text" role="button" (click)="hide = !hide">
-                                <i class="fa" [ngClass]="{'fa-eye-slash': hide, 'fa-eye': !hide}"></i>
-                            </span>
-                        </div>
-                        <div 
-                            class="invalid-feedback"
-                            *ngIf="createForm.get('password').invalid 
-                            && (createForm.get('password').touched 
-                            || createForm.get('password').dirty) && createForm.get('password').getError('required')"
-                        >
-                            Password is required
-                        </div>
-                        <div 
-                            class="invalid-feedback"
-                            *ngIf="createForm.get('password').invalid 
-                            && (createForm.get('password').touched 
-                            || createForm.get('password').dirty) && createForm.get('password').getError('minLength')"
-                        >
-                            Password must have at least 8 characters
-                        </div>
-                        <div 
-                            class="invalid-feedback"
-                            *ngIf="createForm.get('password').invalid 
-                            && (createForm.get('password').touched 
-                            || createForm.get('password').dirty) && createForm.get('password').getError('pattern')"
-                        >
-                            Password must be at least 8 characters. And has one digit character (0-9), one word character (alphanumeric or underscore), and different of LINE FEED character, and has at least one of special character !@#\$%\^&\* and at least one upper/lower character
-                        </div>
-                    </div>
-                    <button 
-                        type="button" 
-                        class="btn btn-link"
-                        (click)="generatePassword()"
-                    >   
-                        Generate
-                    </button>
-                </div>
-
-                <div class="form-group">
-                    <label for="role"><strong>Role</strong></label>
-                    <select class="custom-select" formControlName="role" required>
-                        <option disabled>Choose user role</option>
-                        <option value="1">Admin</option>
-                        <option value="2">User</option>
-                    </select>
-                    <div 
-                        class="invalid-feedback"
-                        *ngIf="createForm.get('role').invalid 
-                        && (createForm.get('role').touched 
-                        || createForm.get('role').dirty) 
-                        && createForm.get('role').getError('required')"
-                    >
-                        Role is required
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="userImage">
-                        <strong>User image</strong>
-                    </label> <br>
-                    <label class="btn btn-outline-success upload-btn">
-                        <i class="fa fa-paperclip"></i>
-                        <input 
-                            formControlName="userImage" 
-                            type="file" 
-                            hidden
-                            accept=".jpeg,.png,.jpg"
-                            (change)="imageFileChanged($event)"
-                        >
-                    </label> <br>
-                    <span class="text-muted" *ngIf="createForm.get('userImage').value !== null">
-                        {{ createForm.get('userImage').value }}
-                    </span>
-                </div>
-                <div class="modal-footer">
-                    <button 
-                        class="btn btn-outline-primary"
-                        [disabled]="createForm.invalid"
-                    >
-                        Create
-                    </button>
-                </div>
-            </form>
-        </div>
-      </div>
-    </div>
-</div>
+<app-modal [selectedUser]="selectedUser" (modalUser)="persistUserData($event)"></app-modal>
