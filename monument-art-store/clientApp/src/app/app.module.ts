@@ -7,7 +7,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LayoutModule } from '@angular/cdk/layout';
 
 
 import { LoginComponent } from './components/login/login.component';
@@ -18,6 +17,7 @@ import { ArtsComponent } from './components/arts/arts.component';
 import { ToastrModule } from 'ngx-toastr';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
+import { ModalComponent } from './components/users/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,8 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
     NotFoundComponent,
     UsersComponent,
     ArtsComponent,
-    NavbarComponent
+    NavbarComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
