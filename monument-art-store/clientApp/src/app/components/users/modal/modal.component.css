@@ -1,0 +1,22 @@
+[hidden] {
+    display: none !important;
+}
+
+.invalid {
+    color: red;
+}
+
+.upload-btn {
+    align-items: center;
+    padding-top: 5px;
+    width: 100px;
+}
+
+.upload-btn > .fa-plus {
+    font-size: 31px;
+}
+
+.card > img {
+    max-height: 250px;
+    height: 250px;
+}
