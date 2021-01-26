@@ -139,12 +139,7 @@ class UserController {
     const userRepository = getRepository(User);
     let user: User;
     try {
-      user = await userRepository.findOneOrFail({ userId: _id }, {
-        join: {
-          alias: 'user',
-          leftJoinAndSelect: { role: 'user.role'}
-        }
-      });
+      user = await userRepository.findOneOrFail({ userId: _id });
       
     } catch (error) {
       //If not found, send a 404 response
@@ -157,17 +152,17 @@ class UserController {
       }
       res.status(404).send({message: "User not found"});
       return;
-    }
+    }  
     
-    if(req.body.email != undefined && req.body.email != '')
+    if(req.body.email !== undefined && req.body.email !== '' && user.email.toLowerCase() !== req.body.email.toLowerCase())
       user.email = req.body.email;
-    if(req.body.role != undefined && req.body.role != '')
+    if(req.body.role !== undefined && req.body.role !== '' && user.role !== req.body.role)
       user.role = req.body.role;
-    if(req.body.name != undefined && req.body.name != '')
+    if(req.body.name !== undefined && req.body.name !== '' && user.name.toLowerCase() !== req.body.name.toLowerCase())
       user.name = req.body.name;
-    if(req.body.password != undefined && req.body.password != '')
+    if(req.body.password !== undefined && req.body.password !== '' && req.body.password.length > 8)
       user.password = req.body.password
-    if(req.file != undefined) {
+    if(req.file !== undefined) {
       if(user.userImage.length !== 0 && fs.existsSync(user.userImage)) { // check if old image exist
         fs.unlink(user.userImage, (err) => {
             if(err) res.send({ error: err})
