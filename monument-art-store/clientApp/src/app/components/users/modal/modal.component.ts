@@ -44,11 +44,11 @@ export class ModalComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     //Called after every check of the component's view. Applies to components only.
     //Add 'implements AfterViewChecked' to the class.
-    if(this.selectedUser !== null) {
+    if(this.selectedUser !== null) {      
       this.userForm.patchValue({
         name: this.selectedUser.name,
         email: this.selectedUser.email,
-        role: this.selectedUser.role
+        role: this.selectedUser.role.id
       })
       this.showPasswordStatus = true
     }
@@ -59,7 +59,7 @@ export class ModalComponent implements OnInit, OnChanges {
 
   submitUser() {
     this.modalUser.emit(this.objectToFormData(this.userForm))
-    this.userForm.reset()
+    // this.userForm.reset()
     
   }
 
