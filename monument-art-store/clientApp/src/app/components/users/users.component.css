@@ -15,3 +15,8 @@
 .text-red {
     color: red;
 }
+
+.card-img-top {
+    min-height: 295px;
+    height: 295px;
+}
