@@ -1,3 +1,4 @@
+import { TokenService } from './../../services/token.service';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from "../../models/user";
@@ -11,21 +12,26 @@ import Swal from 'sweetalert2'
 })
 export class UsersComponent implements OnInit {
 
+  currentUser = null
   users: User[] = []
   selectedUser = null
 
   constructor(
     private userService: UserService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private tokenService: TokenService
   ) { }
 
   ngOnInit(): void {
-    this.getAll()
+    this.tokenService.authStatus.subscribe(res => {
+      this.currentUser = this.tokenService.getInfos();      
+      this.getAll()
+    })
   }
 
   getAll() {
     this.userService._fetch().subscribe(res => {
-      this.users = res
+      this.users = res.filter(user => user._id !== this.currentUser.userId)
     }, err => {
       console.dir(err)
       this.toastr.error(err.error.error !== undefined ? err.error.error : err.message, 'Error', { timeOut: 3000})
