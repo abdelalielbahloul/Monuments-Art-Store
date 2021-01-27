@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Title } from '@angular/platform-browser';
 
 
 import { LoginComponent } from './components/login/login.component';
@@ -41,11 +42,14 @@ import { ModalComponent } from './components/users/modal/modal.component';
       preventDuplicates: true,
     })
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: JwtInterceptor,
-    multi: true
-  }],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    },
+    Title
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

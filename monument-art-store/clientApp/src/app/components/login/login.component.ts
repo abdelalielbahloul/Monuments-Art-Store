@@ -1,3 +1,4 @@
+import { Title } from '@angular/platform-browser';
 import { TokenService } from './../../services/token.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -30,10 +31,12 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private tokenService: TokenService,
-    private router: Router
+    private router: Router,
+    private titleService: Title
   ) { }
 
   ngOnInit(): void {
+    this.setTitle('Login')
   }
 
   onSubmit() {
@@ -48,6 +51,10 @@ export class LoginComponent implements OnInit {
     this.tokenService.handle(response);
     this.tokenService.changeStatus(true);
     this.router.navigateByUrl('/')
+  }
+
+  setTitle(newTitle: string) {
+    this.titleService.setTitle(`Monument Art Store - ${newTitle}`)
   }
 
 }

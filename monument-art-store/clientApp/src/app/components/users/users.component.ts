@@ -1,3 +1,4 @@
+import { Title } from '@angular/platform-browser';
 import { TokenService } from './../../services/token.service';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
@@ -19,7 +20,8 @@ export class UsersComponent implements OnInit {
   constructor(
     private userService: UserService,
     private toastr: ToastrService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private titleService: Title
   ) { }
 
   ngOnInit(): void {
@@ -27,6 +29,7 @@ export class UsersComponent implements OnInit {
       this.currentUser = this.tokenService.getInfos();      
       this.getAll()
     })
+    this.titleService.setTitle('Users')
   }
 
   getAll() {
@@ -95,6 +98,10 @@ export class UsersComponent implements OnInit {
       console.dir(err)
       this.toastr.error(err.error.error, err.statusText, { timeOut: 4000 })
     })
+  }
+
+  setTitle(newTitle: string) {
+    this.titleService.setTitle(`Monument Art Store - ${newTitle}`)
   }
   
 

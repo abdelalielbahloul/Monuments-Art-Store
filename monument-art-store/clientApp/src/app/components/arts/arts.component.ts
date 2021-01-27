@@ -1,3 +1,4 @@
+import { Title } from '@angular/platform-browser';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArtsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private titleService: Title
+  ) { }
 
   ngOnInit(): void {
+    this.setTitle('Arts')
   }
 
+
+
+  setTitle(newTitle: string) {
+    this.titleService.setTitle(`Monument Art Store - ${newTitle}`)
+  }
 }
