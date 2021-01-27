@@ -32,7 +32,7 @@ export class JwtInterceptor implements HttpInterceptor {
         }
 
         if (err.status === 404) {
-          this.toastr.error(err.error.message, err.statusText, { timeOut: 4000 })
+          this.toastr.error(err.error.msg, err.statusText, { timeOut: 4000 })
           
         }        
         // const error = (err && err.error && err.error.message) || err.statusText;
