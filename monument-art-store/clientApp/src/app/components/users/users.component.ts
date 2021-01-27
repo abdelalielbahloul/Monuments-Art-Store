@@ -74,6 +74,7 @@ export class UsersComponent implements OnInit {
     this.userService._update(user, userId).subscribe(() => {
       this.getAll()
       this.toastr.success('User updated Successfully!', 'Updated', { timeOut: 3000 })
+      this.selectedUser = this.users.map(user => user._id === userId)
     }, err => {
       console.dir(err)
       this.toastr.error(err.error.error, err.statusText, { timeOut: 4000 })

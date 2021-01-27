@@ -59,7 +59,7 @@ export class ModalComponent implements OnInit, OnChanges {
 
   submitUser() {
     this.modalUser.emit(this.objectToFormData(this.userForm))
-    // this.userForm.reset()
+    this.userForm.reset()
     
   }
 
