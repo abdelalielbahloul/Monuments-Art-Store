@@ -1,85 +1,45 @@
-.header {
-    margin-bottom: 30px;
-}
-
-.bg-img {
-    height: 520px;
-    opacity: 0.8;
-}
-
-.container {
+/* Container holding the image and the text */
+.container-fluid {
     position: relative;
     text-align: left;
     color: white;
-    width: 450px;
-    /* height: 150px; */
-}
-
-.bg-img:hover ~ .sections {
-    visibility: visible;
-}
-
-.sections, .sectionBtns {
-    visibility: hidden;
-}
-  
+  }
   /* Bottom left text */
-.bottom-left {
+  .bottom-left {
     position: absolute;
-    bottom: 35px;
-    left: 60px;
-}
-
-/* Top left text */
-.top-left {
-    position: absolute;
-    top: 16px;
-    left: 20px;
-}
+    bottom: 8px;
+    left: 16px;
+  }
   
-/* Top right text */
-.top-right {
+  /* Top left text */
+  .top-left {
     position: absolute;
-    top: -16px;
-    right: 2px;
-}
+    top: 8px;
+    left: 16px;
+  }
+  
+  /* Top right text */
+  .top-right {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+  }
   
   /* Bottom right text */
   .bottom-right {
     position: absolute;
-    bottom: 35px;
-    right: 60px;
+    bottom: 8px;
+    right: 16px;
   }
   
   /* Centered text */
-.centered {
+  .centered {
     position: absolute;
-    top: 35%;
-    left: 40%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-}
+  }
 
-.mat-h1 {
-    width: 256px;
-}
-
-.location {
-    margin-left: 10px;
-    margin-top: 10px;
-    color: #ffffff;
-    font-weight: 600;
-    position: relative;
-}
-
-.btnEditArt {
-    margin-right: 8px;
-    background-color: rgb(250, 194, 41);
-}
-
-.btnDeleteArt {
-    margin-right: 8px;
-}
-
-.btnEditValidate {
-    background-color: rgba(6, 122, 31, 0.973);
-}
+  img {
+      width: 100%;
+  }
